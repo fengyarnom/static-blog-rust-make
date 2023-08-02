@@ -2,8 +2,12 @@ use gray_matter::Matter;
 use gray_matter::engine::YAML;
 use serde::Deserialize;
 use comrak::{markdown_to_html, ComrakOptions};
+use tera::Tera;
+use tera::Context;
 
 use std::fs;
+use std::fs::File;
+use std::io::Write;
 use std::path::Path;
 
 #[derive(Deserialize, Debug)]
@@ -67,6 +71,44 @@ fn main() {
                         }
 
                         println!("{:?}",post);
+
+                        let tera = match Tera::new("templates/**/*") {
+                            Ok(t) => t,
+                            Err(e) => {
+                                println!("Error initializing Tera: {:?}", e);
+                                return;
+                            }
+                        };
+
+                        // 创建数据上下文
+                        let mut context = Context::new();
+                        context.insert("title", &post.title);
+                        context.insert("content", &tera::Value::String(post.content.to_string()));
+                        context.insert("date", &post.date);
+
+                        let result = tera.render("post.html", &context);
+
+                        match result {
+                            Ok(rendered) => {
+                                println!("Rendered content:\n{}", rendered);
+                                let file_path = "output.html";
+
+                                let mut file = match File::create(file_path) {
+                                    Ok(file) => file,
+                                    Err(e) => {
+                                        println!("Error creating file: {:?}", e);
+                                        return;
+                                    }
+                                };
+
+                                match file.write_all(rendered.as_bytes()) {
+                                    Ok(_) => println!("HTML file generated successfully!"),
+                                    Err(e) => println!("Error writing to file: {:?}", e),
+                                }
+                            },
+                            Err(e) => println!("Error rendering template: {:?}", e),
+                        }
+
 
                     }
                 }

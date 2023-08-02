@@ -9,4 +9,5 @@ edition = "2021"
 comrak = "0.18.0"
 gray_matter = "0.2"
 serde = "1.0.180"
+tera = "1"
 
