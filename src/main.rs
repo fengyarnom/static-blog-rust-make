@@ -1,6 +1,7 @@
 use gray_matter::Matter;
 use gray_matter::engine::YAML;
 use serde::Deserialize;
+use comrak::{markdown_to_html, ComrakOptions};
 
 use std::fs;
 use std::path::Path;
@@ -27,13 +28,14 @@ fn main() {
 
                         let frontmatter = result.data.as_ref().unwrap().as_hashmap().unwrap();
                         let markdown_content = result.content;
+                        let html_content = markdown_to_html(&markdown_content, &ComrakOptions::default());
 
                         let mut post = Post{
                             title: "".to_string(),
                             date: "".to_string(),
                             tags: vec![],
                             categories: vec![],
-                            content: "".to_string(),
+                            content: html_content,
                         };
 
                         for item_frontmatter in &frontmatter {
@@ -63,13 +65,8 @@ fn main() {
                             }
 
                         }
-                        
+
                         println!("{:?}",post);
-                        // if let Ok(front_matter) =  result.data.unwrap().deserialize::<FrontMatter>(){
-                        //     println!("{:?}", front_matter);
-                        // }else{
-                        //     println!("{} missed matter",entry.path().to_string_lossy());
-                        // };
 
                     }
                 }
