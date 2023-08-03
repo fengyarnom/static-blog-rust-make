@@ -1,25 +1,14 @@
-use gray_matter::Matter;
-use gray_matter::engine::YAML;
-use serde::Deserialize;
-use comrak::{markdown_to_html, ComrakOptions};
-use tera::Tera;
-use tera::Context;
+mod markdown_parse;
 
 use std::fs;
 use std::fs::File;
 use std::io::Write;
 use std::path::Path;
+use tera::{Context, Tera};
+use crate::markdown_parse::Post;
 
-#[derive(Deserialize, Debug)]
-struct Post {
-    title: String,
-    date: String,
-    tags: Vec<String>,
-    categories: Vec<String>,
-    content:String
-}
 
-fn generate_html_from_mardown(){
+fn generate_html_from_markdown(){
     let posts_path = Path::new("./posts");
     if let Ok(entries) = Path::read_dir(posts_path){
         for entry in entries {
@@ -27,64 +16,18 @@ fn generate_html_from_mardown(){
                 if let Some(extension) = entry.path().extension(){
                     if extension == "md"{
                         let raw_content = fs::read_to_string(entry.path()).unwrap();
-                        let post = parse_markdown(&raw_content).unwrap();
+                        let post = markdown_parse::Post::new(&raw_content).unwrap();
 
-                        render_templates(&post);
+                        render_templates(post);
                     }
                 }
             }
         }
     }
-}
-fn parse_markdown(raw_content: &str) -> Option<Post>{
-    let matter = Matter::<YAML>::new();
-    let parsed_entity = matter.parse(&raw_content);
-
-    let frontmatter = parsed_entity.data.as_ref().unwrap().as_hashmap().unwrap();
-    let markdown_content = parsed_entity.content;
-    let html_content = parse_markdown2html(&markdown_content).unwrap();
-
-    let mut post = Post{
-        title: "".to_string(),
-        date: "".to_string(),
-        tags: vec![],
-        categories: vec![],
-        content: html_content,
-    };
-
-    for item_frontmatter in &frontmatter {
-        match item_frontmatter.0.as_str() {
-            "title" => {
-                post.title = item_frontmatter.1.as_string().unwrap();
-            },
-            "date" => {
-                post.date = item_frontmatter.1.as_string().unwrap();
-            },
-            "tags" => {
-                if !item_frontmatter.1.is_empty(){
-                    for tag in item_frontmatter.1.as_vec().unwrap(){
-                        post.tags.push(tag.as_string().unwrap())
-                    }
-                }
-            },
-
-            "categories" => {
-                if !item_frontmatter.1.is_empty(){
-                    for category in item_frontmatter.1.as_vec().unwrap(){
-                        post.categories.push(category.as_string().unwrap())
-                    }
-                }
-            },
-            _ => println!("Unknown frontmatter item"),
-        }
-
-    }
-
-    Some(post)
 
 }
 
-fn render_templates(post: &Post){
+fn render_templates(post: Post){
     let tera = match Tera::new("./templates/**/*") {
         Ok(t) => t,
         Err(e) => {
@@ -95,9 +38,9 @@ fn render_templates(post: &Post){
 
     // 创建数据上下文
     let mut context = Context::new();
-    context.insert("title", &post.title);
-    context.insert("content", &tera::Value::String(post.content.to_string()));
-    context.insert("date", &post.date);
+    context.insert("title", post.get_title());
+    context.insert("content", &tera::Value::String(post.get_content().to_string()));
+    context.insert("date", post.get_date());
 
     let result = tera.render("post.html", &context);
 
@@ -122,12 +65,12 @@ fn render_templates(post: &Post){
         Err(e) => println!("Error rendering template: {:?}", e),
     }
 }
-
-fn parse_markdown2html(markdown_content: &str) -> Option<String>{
-    let html_content = markdown_to_html(&markdown_content, &ComrakOptions::default());
-    Some(html_content)
-}
+//
+// fn parse_markdown2html(markdown_content: &str) -> Option<String>{
+//     let html_content = markdown_to_html(&markdown_content, &ComrakOptions::default());
+//     Some(html_content)
+// }
 
 fn main() {
-    generate_html_from_mardown();
+    generate_html_from_markdown();
 }
