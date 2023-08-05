@@ -1,4 +1,7 @@
 mod markdown_parse;
+mod traverse_files;
+mod render_html;
+mod posts;
 
 use std::fs;
 use std::fs::File;
@@ -6,10 +9,12 @@ use std::io::Write;
 use std::path::Path;
 use tera::{Context, Tera};
 use crate::markdown_parse::Post;
+use crate::posts::Posts;
+use crate::render_html::RenderHtml;
 
 
 fn generate_html_from_markdown(){
-    let posts_path = Path::new("./posts");
+    let posts_path = Path::new("../sources/posts");
     if let Ok(entries) = Path::read_dir(posts_path){
         for entry in entries {
             if let Ok(entry) = entry{
@@ -65,12 +70,11 @@ fn render_templates(post: Post){
         Err(e) => println!("Error rendering template: {:?}", e),
     }
 }
-//
-// fn parse_markdown2html(markdown_content: &str) -> Option<String>{
-//     let html_content = markdown_to_html(&markdown_content, &ComrakOptions::default());
-//     Some(html_content)
-// }
 
 fn main() {
-    generate_html_from_markdown();
+    //generate_html_from_markdown();
+    let blog_files = traverse_files::BlogFiles::new("./sources").unwrap();
+    let posts= posts::Posts::new(blog_files.get_markdown_file_paths()).unwrap();
+    let html_render = render_html::RenderHtml::new("templates/**/*.html", &posts, &blog_files).unwrap();
+    html_render.render_html("./output");
 }
