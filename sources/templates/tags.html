@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Tags Page</title>
+</head>
+<body>
+  <h1>{{ tag_name }}</h1>
+  {% for post in page %}
+    <li><a href="/{{ post.title }}">{{ post.title }}</a></li>
+
+  {% endfor %}
+</body>
+</html>

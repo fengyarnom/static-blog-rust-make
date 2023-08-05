@@ -3,20 +3,23 @@ use std::path::PathBuf;
 use grass;
 use tera::{Context, Tera};
 use crate::posts::Posts;
+use crate::tags::Tags;
 use crate::traverse_files::BlogFiles;
 
 pub struct RenderHtml<'a>  {
     template_paths:&'a str,
     posts: &'a Posts,
     blog_files: &'a BlogFiles,
+    tags: &'a Tags<'a>
 }
 
 impl RenderHtml<'_> {
-    pub fn new<'a>(template_paths:&'a str ,posts: &'a Posts, blog_files: &'a BlogFiles)->Option<RenderHtml<'a>>{
+    pub fn new<'a>(template_paths:&'a str ,posts: &'a Posts, blog_files: &'a BlogFiles, tags:&'a Tags)->Option<RenderHtml<'a>>{
         let template_paths = template_paths;
         let posts = posts;
         let blog_files=blog_files;
-        Some(RenderHtml{template_paths,posts,blog_files})
+        let tags= tags;
+        Some(RenderHtml{template_paths,posts,blog_files,tags})
     }
 
     pub fn render_html(&self,output_path: &str){
@@ -39,6 +42,16 @@ impl RenderHtml<'_> {
 
                         let post_output_path = format!("public/posts/{}.html", post.get_slug());
                         render_and_save_to_html(&tera, "post.html", &post_output_path, &context).unwrap();
+                    }
+                }
+                "tags.html" => {
+                    for tag in self.tags.get_tags(){
+                        let mut context = Context::new();
+                        context.insert("tag_name", tag.0);
+                        context.insert("page", tag.1);
+
+                        let post_output_path = format!("public/tags/{}.html", tag.0);
+                        render_and_save_to_html(&tera, "tags.html", &post_output_path, &context).unwrap();
                     }
                 }
                 &_ => {
