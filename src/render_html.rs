@@ -1,3 +1,6 @@
+use std::fs;
+use std::path::PathBuf;
+use grass;
 use tera::{Context, Tera};
 use crate::posts::Posts;
 use crate::traverse_files::BlogFiles;
@@ -17,16 +20,36 @@ impl RenderHtml<'_> {
     }
 
     pub fn render_html(&self,output_path: &str){
-        let mut tera = Tera::new("./sources/templates/**/*.html").unwrap();
-        println!("{:?}",tera);
-        for post in self.posts.get_posts(){
-            println!("{:?}",post);
-            let mut context = Context::new();
-            context.insert("post", &post);
+        for scss_file in self.blog_files.get_scss_file_paths(){
+            let file_name_without_extension = scss_file.file_stem().unwrap().to_string_lossy().to_string();
+            let output_path = format!("public/static/css/{}.css", file_name_without_extension);
+            let css_content = grass::from_path(scss_file,&grass::Options::default()).unwrap();
 
-            let post_output_path = format!("output/posts/{}.html", post.get_slug());
-            render_and_save_to_html(&tera, "post.html", &post_output_path, &context).unwrap();
+            fs::write(output_path, css_content);
+
         }
+        let mut tera = Tera::new("./sources/templates/**/*.html").unwrap();
+        for template in self.blog_files.get_template_file_paths(){
+            let template_file_name = template.file_name().unwrap().to_str().unwrap();
+            match template_file_name {
+                "post.html" => {
+                    for post in self.posts.get_posts(){
+                        let mut context = Context::new();
+                        context.insert("page", &post);
+
+                        let post_output_path = format!("public/posts/{}.html", post.get_slug());
+                        render_and_save_to_html(&tera, "post.html", &post_output_path, &context).unwrap();
+                    }
+                }
+                &_ => {
+                    let mut context = Context::new();
+                    context.insert("posts", &self.posts.get_posts());
+                    let output_path = format!("public/{}", template_file_name);
+                    render_and_save_to_html(&tera, &template_file_name, &output_path, &context).unwrap();
+                }
+            }
+        }
+
 
         fn render_and_save_to_html(tera: &Tera, template_name: &str, output_path: &str, data: &Context) -> Result<(), Box<dyn std::error::Error>> {
             // 渲染模板并生成 HTML 文件

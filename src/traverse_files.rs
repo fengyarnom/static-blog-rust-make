@@ -5,6 +5,7 @@ use std::path::{PathBuf};
 pub struct BlogFiles{
     markdown_file_paths: Vec<PathBuf>,
     template_file_paths: Vec<PathBuf>,
+    scss_file_paths: Vec<PathBuf>,
 }
 
 impl BlogFiles {
@@ -12,7 +13,8 @@ impl BlogFiles {
         let sources_path = PathBuf::from(sources_path);
         let markdown_file_paths = BlogFiles::traverse_markdown_files(&sources_path).unwrap();
         let template_file_paths = BlogFiles::traverse_templates_files(&sources_path).unwrap();
-        Some(BlogFiles{markdown_file_paths,template_file_paths})
+        let scss_file_paths = BlogFiles::traverse_scss_files(&sources_path).unwrap();
+        Some(BlogFiles{markdown_file_paths,template_file_paths,scss_file_paths})
     }
 
     pub fn get_template_file_paths(&self) -> &Vec<PathBuf>{
@@ -21,6 +23,10 @@ impl BlogFiles {
 
     pub fn get_markdown_file_paths(&self) -> &Vec<PathBuf>{
         &self.markdown_file_paths
+    }
+
+    pub fn get_scss_file_paths(&self) -> &Vec<PathBuf>{
+        &self.scss_file_paths
     }
     fn traverse_markdown_files(sources_path: &PathBuf)-> Option<Vec<PathBuf>>{
         let posts_path = "posts";
@@ -38,6 +44,24 @@ impl BlogFiles {
             }
         }
         Some(markdown_file_paths)
+    }
+
+    fn traverse_scss_files(sources_path: &PathBuf)-> Option<Vec<PathBuf>>{
+        let css_path = "static/css";
+        let css_path = sources_path.join(css_path);
+
+        let mut scss_file_paths: Vec<PathBuf> = vec![];
+        if let Ok(entries) = fs::read_dir(css_path){
+            for entry in entries{
+                if let Ok(post) = entry{
+                    let css_path = post.path();
+
+                    scss_file_paths.push(css_path);
+
+                }
+            }
+        }
+        Some(scss_file_paths)
     }
 
     fn traverse_templates_files(sources_path: &PathBuf)-> Option<Vec<PathBuf>>{

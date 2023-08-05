@@ -7,6 +7,7 @@ edition = "2021"
 
 [dependencies]
 comrak = "0.18.0"
+grass = "0.13.1"
 gray_matter = "0.2"
 serde = "1.0.180"
 tera = "1"

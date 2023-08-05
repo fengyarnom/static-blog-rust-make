@@ -45,6 +45,7 @@ impl Post {
     pub fn get_slug(&self) -> &String {
         &self.slug
     }
+
     fn separate_front_matter_and_content(markdown_raw_content:&str) -> (HashMap<String, Pod>, String) {
         let matter = Matter::<YAML>::new();
         let parsed_entity = matter.parse(markdown_raw_content);

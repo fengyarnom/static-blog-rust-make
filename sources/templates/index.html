@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="static/css/style.css">
 </head>
 <body>
     <h1>Hello, Index :)</h1>
+    {% for post in posts %}
+        <li>{{ post.title }}</li>
+    {% endfor %}
 </body>
 </html>
