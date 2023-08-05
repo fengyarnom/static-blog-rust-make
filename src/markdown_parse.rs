@@ -1,12 +1,14 @@
 use std::collections::HashMap;
-use serde::Deserialize;
+use serde::{Serialize};
 use gray_matter::{Matter, Pod};
 use gray_matter::engine::YAML;
 use comrak::{markdown_to_html, ComrakOptions};
 
-#[derive(Deserialize, Debug)]
-pub struct Post {
+#[derive(Serialize, Debug)]
+pub struct Post
+{
     title: String,
+    slug: String,
     date: String,
     tags: Vec<String>,
     categories: Vec<String>,
@@ -18,7 +20,9 @@ impl Post {
         let (frontmatter,markdown_content) =  Post::separate_front_matter_and_content(markdown_raw_content);
         let (title,date,tags,categories) = Post::parse_front_matter(&frontmatter).unwrap();
         let content = Post::parse_markdown_to_html(&markdown_content).unwrap();
-        Some(Post{title,date,tags,categories,content})
+        let slug = Post::parse_slug(&title,&date);
+
+        Some(Post{title,slug,date,tags,categories,content})
     }
 
     pub fn get_title(&self) -> &String {
@@ -38,7 +42,9 @@ impl Post {
     pub fn get_content(&self) -> &String {
         &self.content
     }
-
+    pub fn get_slug(&self) -> &String {
+        &self.slug
+    }
     fn separate_front_matter_and_content(markdown_raw_content:&str) -> (HashMap<String, Pod>, String) {
         let matter = Matter::<YAML>::new();
         let parsed_entity = matter.parse(markdown_raw_content);
@@ -50,7 +56,7 @@ impl Post {
     }
 
     fn parse_front_matter(frontmatter: &HashMap<String,Pod>) -> Option<(String,String,Vec<String>,Vec<String>)> {
-        let mut title: String= "default title".to_string();
+        let mut title: String = String::new();
         let mut date: String = String::new();
         let mut tags: Vec<String> = Vec::new();
         let mut categories: Vec<String> = Vec::new();
@@ -84,11 +90,28 @@ impl Post {
                 },
             }
         }
+
         Some((title,date,tags,categories))
     }
 
     fn parse_markdown_to_html(markdown_content: &str) -> Option<String>{
         let html_content = markdown_to_html(&markdown_content, &ComrakOptions::default());
         Some(html_content)
+    }
+
+    fn parse_slug(title: &str, date: &str) -> String {
+        let mut slug= String::new();
+
+        if let Some((date_part, time_part)) = date.split_once(' ') {
+            slug.push_str(date_part);
+            slug.push_str("-");
+        } else {
+            println!("Invalid datetime format");
+        }
+
+        slug.push_str(&title.replace(" ", "-"));
+
+        slug
+
     }
 }
