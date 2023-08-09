@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Tags Page</title>
+</head>
+<body>
+<h1>Archive</h1>
+    <ul>
+        {% for post in posts %}
+        <li><a href="../posts/{{ post.slug }}.html">{{ post.title }}</a></li>
+        {% endfor %}
+    </ul>
+</ul>
+</body>
+</html>
