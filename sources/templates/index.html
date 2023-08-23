@@ -3,12 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
     <h1>Hello, Index :)</h1>
-    {% for post in posts %}
-        <li>{{ post.title }}</li>
+    {% for post in page.posts %}
+        <li>
+            <a href={{ post.link }}> {{ post.title }} </a>
+
+        </li>
     {% endfor %}
+
+    <a href="/page/{{page.pre_page}}/">Pre </a>
+    {{ page.page_number }}
+    <a href="/page/{{page.next_page}}/">Next</a>
 </body>
 </html>

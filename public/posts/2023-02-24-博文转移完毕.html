@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="UTF-8">
+    <title>2023-02-24-博文转移完毕</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <h1>博文转移完毕</h1>
+    <h3>2023-02-24 00:56:03</h3>
+    <p>由于之前的博客存储在了 sqlite3 数据库里，显然是没办法直接导入 Hexo 所识别的格式的，所以用 python 写了
+一个小脚本，方便博文的转移。</p>
+<pre><code class="language-python">import sqlite3
+from datetime import datetime
+conn = sqlite3.connect(&quot;Hsunr.db&quot;)
+cursor = conn.cursor()
+
+cursor.execute('select * from post')
+values = cursor.fetchall()
+for item in values:
+    file_name = &quot;{}-{}.md&quot;.format(item[5],item[1].replace(' ','-'))
+    dt_obj = datetime.strptime(item[0], '%Y%m%d%H%M%S')
+    content = &quot;---\n&quot; \
+              &quot;title: {}\n&quot; \
+              &quot;date: {}\n&quot; \
+              &quot;tags:\n&quot; \
+              &quot;categories: {}\n&quot; \
+              &quot;---\n&quot;\
+              &quot;{}&quot;.format(item[1],dt_obj,item[3],item[2])
+    f = open(file_name,'w');
+    f.write(content)
+</code></pre>
+
+</body>
+</html>

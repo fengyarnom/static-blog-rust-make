@@ -7,8 +7,8 @@
 <body>
   <h1>Tags</h1>
 
-  {% for tag, posts in tags %}
-    <li><a href="">{{ tag }}</a></li>
+  {% for name,posts in page %}
+    <li><a href="/tags/{{name}}">{{ name }}</a></li>
   {% endfor %}
 </body>
 </html>

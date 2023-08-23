@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="UTF-8">
+    <title>2023-04-06-[NFS]-mount:-Connection-timed-out</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <h1>[NFS] mount: Connection timed out</h1>
+    <h3>2023-04-06 20:09:29</h3>
+    <h2>问题描述</h2>
+<p>Linux 服务端和 Arm 开发板客户端进行 NFS 服务的连接。</p>
+<p>Linux 和 Arm 开发板之间能ping通，并且处于同一网端，且掩码、网口相同，但是在执行下面的程序时发生超时错误。</p>
+<p>在服务端的nfs配置完全正确的情况下，Arm开发板还是无法正确连接nfs服务器。</p>
+<pre><code class="language-bash">[root@FORLINX6410]# mount -t nfs -o nolock,hard 192.168.1.5:/home/yarnom/nfs /mnt
+mount: mounting 192.168.1.5:/home/yarnom/nfs on /mnt failed: Connection timed out
+
+</code></pre>
+<h2>解决</h2>
+<p>这个问题困扰了我两天终于在这个<a href="https://stackoverflow.com/questions/45938202/mount-nfs-connection-timed-out-on-ubuntu-14-04-1-lts">帖子</a>里找到了解决方案。</p>
+<blockquote>
+<p>Mount the NFS filesystem using the TCP protocol instead of the default UDP protocol. Many NFS servers only support UDP.</p>
+</blockquote>
+<p>这是在NFSv3中添加了对TCP协议的支持：</p>
+<p>总之，我尝试了下面的命令，使用了tcp协议：</p>
+<pre><code class="language-bash">$ mount -t nfs -o nolock,proto=tcp,port=2049 192.168.1.5:/home/yarnom/nfs /mnt
+</code></pre>
+<p>这个协议最终使我正确连接上了nfs服务器。</p>
+
+</body>
+</html>

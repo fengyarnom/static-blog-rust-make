@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="UTF-8">
+    <title>2023-03-26-Debtap</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <h1>Debtap</h1>
+    <h3>2023-03-26 15:54:44</h3>
+    <h2>Setup</h2>
+<pre><code class="language-bash">==&gt; You must run at least once &quot;debtap -u&quot;
+with root privileges (preferably recently),
+before running this script
+
+==&gt; Syntax: debtap [option] package_filename
+
+==&gt; Run &quot;debtap -h&quot; for help
+</code></pre>
+<h3>Update debtap source</h3>
+<pre><code class="language-bash">$ debtap -u
+</code></pre>
+<h3>Convert deb package</h3>
+<pre><code class="language-bash">debtap xxx.deb
+</code></pre>
+<h3>Install</h3>
+<pre><code class="language-bash">sudo pacman -U xxx.pkg
+</code></pre>
+
+</body>
+</html>

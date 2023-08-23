@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="UTF-8">
+    <title>2022-11-10-给-GIT-和-SSH-配置代理</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <h1>给 GIT 和 SSH 配置代理</h1>
+    <h3>2022-11-10 20:38:27</h3>
+    <p>今天 push 不了项目，估计又是网络的问题，决定还是给git和ssh配置一下代理，不然太难受了。
+配置记录如下：
+1.使用socks5代理，我这边的端口是1089</p>
+<pre><code class="language-shell">git config --global http.https://github.com.proxy socks5://127.0.0.1:1089
+</code></pre>
+<p>2.修改 ~/.ssh/config 文件</p>
+<pre><code class="language-shell">Host github.com
+    User git
+    ProxyCommand nc -v -x 127.0.0.1:1089 %h %p
+</code></pre>
+
+</body>
+</html>

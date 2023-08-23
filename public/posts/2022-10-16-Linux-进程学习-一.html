@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="UTF-8">
+    <title>2022-10-16-Linux-进程学习-一</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <h1>Linux 进程学习 一</h1>
+    <h3>2022-10-16 15:54:11</h3>
+    <h2>什么是进程？</h2>
+<p>在了解进程的时候，首先得知道什么是程序。
+操作系统其实学过，程序被执行时，操作系统将可执行文件复制到内存中，这就是程序，而进程则是程序的实例，是系统资源分配的基本单位，它被唯一标识于 PCB 之中，也就是进程控制块。</p>
+<h2>ps 命令 查看进程</h2>
+<blockquote>
+<p>Note that ps -aux is distinct from ps aux.  The POSIX and UNIX standards require that ps -aux print all processes owned by a user named x, as well as printing all processes that would be selected by the -a option.  If the user named x does not exist, this ps may
+interpret the command as ps aux instead and print a warning.  This behavior is intended to aid in transitioning old scripts and habits. It is fragile, subject to change, and thus should not be relied upon.</p>
+</blockquote>
+<blockquote>
+<p>To see every process on the system using BSD syntax:
+ps ax
+ps axu</p>
+</blockquote>
+<p>也就是说，我们可以通过 <strong>ps axu</strong> 来查看系统中的进程</p>
+<h2>top 命令 查看进程</h2>
+<blockquote>
+<p>The  top program provides a dynamic real-time view of a running system.</p>
+</blockquote>
+<p>这个命令显示的进程状态是动态更新的。
+以下是常用命令：</p>
+<ul>
+<li>q：退出top命令</li>
+<li><!-- raw HTML omitted -->：立即刷新</li>
+<li>s：设置刷新时间间隔</li>
+<li>t：显示或隐藏进程和CPU状态信息</li>
+<li>m：显示或隐藏内存状态信息</li>
+<li>P：按%CPU使用率排行</li>
+<li>M：按%MEM排行</li>
+<li>u：指定显示用户进程</li>
+<li>k：kill进程</li>
+<li>i：只显示正在运行的进程</li>
+<li>h：帮助命令。</li>
+</ul>
+
+</body>
+</html>
