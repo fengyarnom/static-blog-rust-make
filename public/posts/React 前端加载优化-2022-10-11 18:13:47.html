@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="UTF-8">
+    <title>React 前端加载优化</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <h1>React 前端加载优化</h1>
+    <h3>2022-10-11 18:13:47</h3>
+    <h2>主要问题</h2>
+<p>这次的 December 项目采用的是前后端分离的技术，交互使用的是 Axios ，但目前遇到的问题是，首次加载网站的时间过于久了，根据 report 的分析，我认为可能存在的问题是 react-router-dom 一次性加载了所有的组件，导致了加载变慢。</p>
+<p>所以，主要的解决策略集中在对 router 的懒加载上，让它分批次地加载组件。</p>
+<p>当然我还怀疑 React-Mui 组件库也拖慢了网站的加载，毕竟它是有些大的，但是应该还好，毕竟加载时是分开导入的，先解决 Router 的问题吧</p>
+<h2>解决方案</h2>
+<p>导入 lazy,Suspense 包</p>
+<pre><code class="language-js">import { lazy,Suspense } from 'react';
+</code></pre>
+<p>lazy 用于懒加载 ， Suspense 用于加载 loading</p>
+<pre><code class="language-js">const MyComponent = lazy(() =&gt; import('./MyComponent'))
+
+&lt;Suspense fallback={&lt;div&gt;Loading...&lt;/div&gt;}&gt;
+	&lt;RouterProvider router={router} /&gt;
+&lt;/Suspense&gt;
+</code></pre>
+
+</body>
+</html>

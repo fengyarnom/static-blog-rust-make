@@ -3,12 +3,12 @@
 <head>
 
     <meta charset="UTF-8">
-    <title>{{ page.slug }}</title>
+    <title>{{ post.title }}</title>
     <link rel="stylesheet" href="../static/css/style.css">
 </head>
 <body>
-    <h1>{{ page.title }}</h1>
-    <h3>{{ page.date }}</h3>
-    {{ page.content|safe }}
+    <h1>{{ post.title }}</h1>
+    <h3>{{ post.date }}</h3>
+    {{ post.content|safe }}
 </body>
 </html>

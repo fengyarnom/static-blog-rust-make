@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="UTF-8">
+    <title>Linux 进程学习 二</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <h1>Linux 进程学习 二</h1>
+    <h3>2022-10-16 16:13:33</h3>
+    <h2>创建进程</h2>
+<p>在 Linux 中每个进程都是父进程创建的，Linux 启动时会创建init 进程，这是系统的第一个进程，其 PID 为 1。
+在 C 语言中，我们可以用fork函数创建新的进程：</p>
+<pre><code class="language-c">#include &lt;unistd.h&gt;
+pid_t fork(void);
+</code></pre>
+<ul>
+<li>If fork() returns a negative value, the creation of a child process was unsuccessful.</li>
+<li>fork() returns a zero to the newly created child process.</li>
+<li>fork() returns a positive value, the process ID of the child process, to the parent. The returned process ID is of type pid_t defined in sys/types.h. Normally, the process ID is an integer. Moreover, a process can use function getpid() to retrieve the process ID assigned to this process.</li>
+</ul>
+<p>也就是：</p>
+<blockquote>
+<p>On success, the PID of the child process is returned in the
+parent, and 0 is returned in the child.  On failure, -1 is
+returned in the parent, no child process is created, and errno is
+set to indicate the error.</p>
+</blockquote>
+<p>也就是：</p>
+<ul>
+<li>返回负数，创建失败</li>
+<li>返回 0 ，就是子进程，它永远返回 0</li>
+<li>返回大于 0 的整数，这是父进程，它会返回子进程的pid</li>
+</ul>
+<h2>终止进程</h2>
+
+</body>
+</html>
