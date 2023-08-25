@@ -185,11 +185,30 @@ impl SiteGenerator {
             }
         }
 
+        let scss_input_dir = "sources/static/css";
+        let css_output_dir = "public/static/css";
+        fs::create_dir_all(css_output_dir);
+        for entry in fs::read_dir(&scss_input_dir).unwrap() {
+            if let Ok(entry) = entry{
+                let file_name = entry.file_name().into_string().unwrap();
+                if file_name.ends_with(".scss") {
+                    let css_content =
+                        grass::from_path(entry.path(),&grass::Options::default()).unwrap();
+                    std::fs::write(format!("{}/{}.css",css_output_dir,entry.path().file_stem().unwrap().to_string_lossy()), css_content)?;
+
+                } else if file_name.ends_with(".css") {
+                    fs::copy(format!("{}/{}",scss_input_dir,file_name), format!("{}/{}",css_output_dir,file_name)).unwrap();
+                }
+            }
+
+        }
+
         self.generate_post_page("post.html","public/posts",&global);
         self.generate_home_page("index.html","public/",&global);
         self.generate_tags_page("tags.html","public/tags",&global);
         self.generate_categories_page("categorie.html","public/categories",&global);
         self.generate_archive_page("archive.html","public/archive",&global);
+
         // // handle custom_templates
         //
         // for entry in fs::read_dir(&self.custom_templates_path).unwrap() {
