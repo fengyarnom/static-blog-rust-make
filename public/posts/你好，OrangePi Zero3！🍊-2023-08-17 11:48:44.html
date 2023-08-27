@@ -73,9 +73,9 @@
         <div class="content_post"><p>本篇文章将详细地写下我配置这块单板计算机的全过程，之后若是有新的自托管服务也会在本文记录下来。</p>
 <h2>购买</h2>
 <p>自从接触 Linux 之后渴望得到一个树莓派了，奈何因为疫情导致了全球的芯片供应紧张，树莓派的价格水涨船高，价格已经远远超过了它的价值，更重要的是超过了我的预算，即使是二手的价格也非常不值当。总之，出于囊中羞涩的考虑，我最终选择了这块国产的派 —— <strong>OrangePi Zero3.</strong></p>
-<p><img src="/static/images/2023-08-17_12-27.png" alt="OrangePi Zero3" /></p>
+<p><img src="https://s2.loli.net/2023/08/27/uq5Lpt4VhGs3eTZ.png" alt="2023-08-17_12-27.png" /></p>
 <p>我购买的是内存为 1.5G 的版本价格为一百出头，刚拿到快递的时候我就疑惑了， 为何如此之小！开箱后更是震惊，它甚至没有我的巴掌大呢！虽然但是，这还是很精致的，而且对于这样的设备而言，小其实是更好的，更方便搭载在其他的设备上。</p>
-<p><img src="/static/images/photo_6264513425795298480_y.jpg" alt="OrangePi Zero3" /></p>
+<p><img src="https://s2.loli.net/2023/08/27/ZeyCJqUun7NYE2I.jpg" alt="photo_6264513425795298480_y.jpg" /></p>
 <p>除开这块板子，我还另外买了：</p>
 <ul>
 <li>亚克力的外壳</li>
@@ -84,7 +84,7 @@
 <li>64G 闪迪 tf 卡</li>
 </ul>
 <p>关于系统镜像方面，我还是选择了熟悉的 debian 发行版，毕竟我的 vps 用的也是这个，这块单板计算机我是拿来内网穿透的 <a href="http://www.orangepi.cn/html/hardWare/computerAndMicrocontrollers/service-and-support/Orange-Pi-Zero-3.html">官方镜像</a></p>
-<p><img src="/static/images/2023-08-17_12-42.png" alt="OrangePi Zero3" /></p>
+<p><img src="https://s2.loli.net/2023/08/27/2gtelYJwAKvsV8X.png" alt="2023-08-17_12-42.png" /></p>
 <h2>系统配置</h2>
 <p>在向 tf 卡刷完系统后，就可以通过串口进行连接了。</p>
 <h3>自动连接热点 WiFi</h3>
@@ -234,11 +234,11 @@ sudo systemctl status frpc
 <h3>Nginx 配置</h3>
 <p>我在服务器中是使用 Nginx 来进行反向代理的，若你的服务器不是，则可以跳过此内容。<strong>若你完全不了解 nginx 建议先去学习了之后再回来进行配置，因为此处我写得很简略，可能会对你产生误导。</strong></p>
 <p>我的 Nginx 代理了80端口，所有的请求都是从此处进入上文提到，需要从 8111 端口进入才能访问内网，所以我需要对 nginx 添加一些配置：</p>
-<p><img src="/static/images/2023-08-17_15-26.png" alt="OrangePi Zero3" /></p>
+<p><img src="https://s2.loli.net/2023/08/27/RrNxIVbkSTgGQOy.png" alt="2023-08-17_15-48.png" /></p>
 <p>这样，当请求 bitwarden 路径时，将会反向代理到 8111 端口</p>
 <p>当然，通过 nginx 也可以配置子域名来访问，首先将三级域名 bitwarden.yarnom.top 通过 CNAME 指向当前的服务器地址</p>
 <p>然后，nginx 设置一个新的 server ，server_name 就是这个三级域名：</p>
-<p><img src="/static/images/2023-08-17_15-48.png" alt="OrangePi Zero3" /></p>
+<p><img src="https://s2.loli.net/2023/08/27/DjX7LebSQftPovT.png" alt="2023-08-17_15-26.png" /></p>
 <h2>搭建 <strong><a href="https://github.com/dani-garcia/vaultwarden">Vaultwarden</a></strong></h2>
 <p>由于官方的 Bitwarden 服务对于我的小机子来说过于庞大了，所以选择了社区用 Rust 编写 Vaultwarden 项目</p>
 <p>它可以用 docker 搭建，那就是几条命令就能安装完毕：</p>
