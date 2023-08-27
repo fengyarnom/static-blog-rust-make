@@ -1,16 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Archive Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%2210 0 100 100%22><text y=%22.90em%22 font-size=%2290%22>🐱</text></svg>">
+    <title>Yarnom'Blog</title>
 </head>
 <body>
-<h1>Archive</h1>
-    <ul>
+    <header>
+    <div class="nav_area">
+        <div class="logo">
+            <a href="/">Yarnom</a>
+            <div class="menu_mobile" onclick="toggleMenu()">
+                <span class="menu_icon">&#9776;</span> <!-- Unicode hamburger icon -->
+            </div>
+        </div>
         
-            <li><a href="&#x2F;posts&#x2F;对未来的一些思考-2023-03-28 14:43:31.html">对未来的一些思考</a></li>
+        <div class="nav_bar">
+            <ul>
+                
+                <li><a href="/archive">归档</a></li>
+                <li><a href="/categories">分类</a></li>
+                <li><a href="/tags">标签</a></li>
+                <li><a href="https://memos.yarnom.top">碎碎念</a></li>
+                <li><a href="/link">友链</a></li>
+                <li><a href="/about">关于</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+<script>
+    function toggleMenu() {
+    var menu = document.querySelector('.nav_bar');
+        menu.classList.toggle('show_nav_bar');
+    }
+</script>
+    
+    <div class="main_container">
+        <div class="main_content main_area">
+            
+    <div class="archive">
         
-    </ul>
-</ul>
+        <li>
+            <span class="post_date">2023-03-28</span>
+            <a href="&#x2F;posts&#x2F;对未来的一些思考-2023-03-28 14:43:31.html" class="post_title">对未来的一些思考</a>
+        </li>
+        
+    </div>
+    
+
+
+        </div>
+    </div>
+
+    
 </body>
+<footer>
+    <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
+</footer> 
 </html>

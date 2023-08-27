@@ -1,0 +1,28 @@
+<header>
+    <div class="nav_area">
+        <div class="logo">
+            <a href="/">Yarnom</a>
+            <div class="menu_mobile" onclick="toggleMenu()">
+                <span class="menu_icon">&#9776;</span> <!-- Unicode hamburger icon -->
+            </div>
+        </div>
+        
+        <div class="nav_bar">
+            <ul>
+                
+                <li><a href="/archive">归档</a></li>
+                <li><a href="/categories">分类</a></li>
+                <li><a href="/tags">标签</a></li>
+                <li><a href="https://memos.yarnom.top">碎碎念</a></li>
+                <li><a href="/link">友链</a></li>
+                <li><a href="/about">关于</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+<script>
+    function toggleMenu() {
+    var menu = document.querySelector('.nav_bar');
+        menu.classList.toggle('show_nav_bar');
+    }
+</script>

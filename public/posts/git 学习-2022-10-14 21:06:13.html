@@ -1,15 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-
     <meta charset="UTF-8">
-    <title>git 学习</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%2210 0 100 100%22><text y=%22.90em%22 font-size=%2290%22>🐱</text></svg>">
+    <title>Yarnom'Blog</title>
 </head>
 <body>
-    <h1>git 学习</h1>
-    <h3>2022-10-14 21:06:13</h3>
-    <p>git 虽说也用了蛮久的了，但是其实来来去去也是一些基础操作，更深入的倒也没有怎么去学，趁着这段时间稍微有些时间，把以前的笔记整理到这里来，也方便之后来查看。</p>
+    <header>
+    <div class="nav_area">
+        <div class="logo">
+            <a href="/">Yarnom</a>
+            <div class="menu_mobile" onclick="toggleMenu()">
+                <span class="menu_icon">&#9776;</span> <!-- Unicode hamburger icon -->
+            </div>
+        </div>
+        
+        <div class="nav_bar">
+            <ul>
+                
+                <li><a href="/archive">归档</a></li>
+                <li><a href="/categories">分类</a></li>
+                <li><a href="/tags">标签</a></li>
+                <li><a href="https://memos.yarnom.top">碎碎念</a></li>
+                <li><a href="/link">友链</a></li>
+                <li><a href="/about">关于</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+<script>
+    function toggleMenu() {
+    var menu = document.querySelector('.nav_bar');
+        menu.classList.toggle('show_nav_bar');
+    }
+</script>
+    
+    <div class="main_container">
+        <div class="main_content main_area">
+            
+
+<div class="post_area">
+    <div class="post">
+        <div class="header_post">
+            <div class="title_post"><a href="">git 学习</a></div>
+            <div class="detail_post">
+                <div class="date">发布时间：2022-10-14</div>
+                <div class="categories">
+                    归档分类：
+                    <ul>
+                        
+                        <li><a href="/categories/git 学习">git 学习</a></li>
+                        
+                    </ul>
+                </div>
+                <div class="tags_post">
+                    标签：
+                    <ul>
+                        
+                        <li><a href="/tags/git">git</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="content_post"><p>git 虽说也用了蛮久的了，但是其实来来去去也是一些基础操作，更深入的倒也没有怎么去学，趁着这段时间稍微有些时间，把以前的笔记整理到这里来，也方便之后来查看。</p>
 <h2>git commit</h2>
 <p>这个命令用于提交记录</p>
 <pre><code class="language-git">git commit
@@ -42,6 +99,16 @@
 <p>虽然在你的本地分支中使用 git reset 很方便，但是这种“改写历史”的方法对大家一起使用的远程分支是无效的哦！</p>
 <p>奇怪！在我们要撤销的提交记录后面居然多了一个新提交！这是因为新提交记录 C2' 引入了更改 —— 这些更改刚好是用来撤销 C2 这个提交的。也就是说 C2' 的状态与 C1 是相同的。</p>
 <p>revert 之后就可以把你的更改推送到远程仓库与别人分享啦。</p>
+</div>
+    </div>
+</div>
 
+        </div>
+    </div>
+
+    
 </body>
+<footer>
+    <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
+</footer> 
 </html>

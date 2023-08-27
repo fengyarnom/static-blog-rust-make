@@ -1,15 +1,13 @@
 use std::collections::HashMap;
-use std::fmt::format;
 use std::fs;
-use std::fs::create_dir_all;
 use std::path::PathBuf;
-use chrono::{Datelike, DateTime, NaiveDateTime, ParseError};
+use chrono::{NaiveDateTime, ParseError};
 use comrak::{ComrakOptions, markdown_to_html};
 use serde::{Deserialize, Serialize};
 use gray_matter::Matter;
 use gray_matter::engine::YAML;
 use serde::ser::SerializeStruct;
-use tera::{Context, Tera, Value};
+use tera::{Context, Tera};
 
 #[derive(Deserialize,Clone, Debug)]
 pub struct FrontMatter {
@@ -22,6 +20,7 @@ pub struct FrontMatter {
 pub struct Post{
     pub title: String,
     pub date: String,
+    pub date_simp: String,
     pub tags: Vec<String>,
     pub categories: Vec<String>,
 
@@ -30,12 +29,14 @@ pub struct Post{
 
     pub slug: String,
     pub link: String,
+
 }
 
 impl Post {
     pub fn new(
         title: String,
         date: String,
+        date_simp: String,
         tags: Vec<String>,
         categories: Vec<String>,
         raw_content: String,
@@ -46,6 +47,7 @@ impl Post {
         Post {
             title,
             date,
+            date_simp,
             tags,
             categories,
             raw_content,
@@ -112,19 +114,22 @@ pub fn parse_markdown_file(markdown_content: &str) -> Post {
     let raw_content = result.content;
 
     if front_matter.tags == None{
-        front_matter.tags = Option::Some(vec!["post".to_string()]);
+        front_matter.tags = Some(vec!["post".to_string()]);
     }
 
     if front_matter.categories == None{
-        front_matter.categories = Option::Some(vec!["default".to_string()]);
+        front_matter.categories = Some(vec!["default".to_string()]);
     }
 
     let content = markdown_to_html(&raw_content, &ComrakOptions::default());
     let slug:String = format!("{}-{}",front_matter.title,front_matter.date);
     let link: String = format!("/posts/{}.html",slug);
+    let parsed_date = Post::parse_date_string(&front_matter.date).unwrap();
+    let date_simp = parsed_date.date().to_string();
     Post::new(
         front_matter.title,
         front_matter.date,
+        date_simp,
         front_matter.tags.unwrap(),
         front_matter.categories.unwrap(),
         raw_content,content,slug,link)
@@ -167,8 +172,8 @@ impl SiteGenerator {
             }
         }
         global.posts.sort_by(|a, b| {
-            let date_a = Post::parse_date_string(&a.date).unwrap_or_else(|_| NaiveDateTime::from_timestamp(0, 0));
-            let date_b = Post::parse_date_string(&b.date).unwrap_or_else(|_| NaiveDateTime::from_timestamp(0, 0));
+            let date_a = Post::parse_date_string(&a.date).unwrap_or_else(|_| NaiveDateTime::from_timestamp_opt(0, 0).unwrap());
+            let date_b = Post::parse_date_string(&b.date).unwrap_or_else(|_| NaiveDateTime::from_timestamp_opt(0, 0).unwrap());
 
             date_b.cmp(&date_a) // 降序排列
         });
@@ -187,14 +192,14 @@ impl SiteGenerator {
 
         let scss_input_dir = "sources/static/css";
         let css_output_dir = "public/static/css";
-        fs::create_dir_all(css_output_dir);
+        fs::create_dir_all(css_output_dir).unwrap();
         for entry in fs::read_dir(&scss_input_dir).unwrap() {
             if let Ok(entry) = entry{
                 let file_name = entry.file_name().into_string().unwrap();
                 if file_name.ends_with(".scss") {
                     let css_content =
                         grass::from_path(entry.path(),&grass::Options::default()).unwrap();
-                    std::fs::write(format!("{}/{}.css",css_output_dir,entry.path().file_stem().unwrap().to_string_lossy()), css_content)?;
+                    fs::write(format!("{}/{}.css",css_output_dir,entry.path().file_stem().unwrap().to_string_lossy()), css_content)?;
 
                 } else if file_name.ends_with(".css") {
                     fs::copy(format!("{}/{}",scss_input_dir,file_name), format!("{}/{}",css_output_dir,file_name)).unwrap();
@@ -203,37 +208,32 @@ impl SiteGenerator {
 
         }
 
-        self.generate_post_page("post.html","public/posts",&global);
-        self.generate_home_page("index.html","public/",&global);
-        self.generate_tags_page("tags.html","public/tags",&global);
-        self.generate_categories_page("categorie.html","public/categories",&global);
-        self.generate_archive_page("archive.html","public/archive",&global);
+        let img_input_dir = "sources/static/images";
+        let img_output_dir = "public/static/images";
+        fs::create_dir_all(img_output_dir).unwrap();
 
-        // // handle custom_templates
-        //
-        // for entry in fs::read_dir(&self.custom_templates_path).unwrap() {
-        //     if let Ok(entry) = entry{
-        //         if entry.path().is_file() {
-        //             let template_file_name = entry.path().file_stem().unwrap().to_string_lossy().to_string();
-        //             let content_path = format!("{}/{}",self.content_path.to_string_lossy(),template_file_name);
-        //             let content_file_path = format!("{}/{}.md",content_path,template_file_name);
-        //
-        //             if PathBuf::from(&content_path).is_dir() {
-        //                 let post = parse_markdown_file(&fs::read_to_string(&content_file_path).unwrap());
-        //                 let output_path = format!("public/{}",template_file_name);
-        //                 self.generate_custom_page(entry.file_name().to_string_lossy().as_ref(),&output_path,&global,&post);
-        //             }
-        //
-        //             //
-        //
-        //             //println!("{}",post.title);
-        //         }
-        //     }
-        // }
+        for entry in fs::read_dir(&img_input_dir).unwrap() {
+            if let Ok(entry) = entry{
+                let file_name = entry.file_name().into_string().unwrap();
+                fs::copy(format!("{}/{}",img_input_dir,file_name), format!("{}/{}",img_output_dir,file_name)).unwrap();
+
+            }
+
+        }
+
+
+        self.generate_post_page("post.html","public/posts",&global).unwrap();
+        self.generate_home_page("index.html","public/",&global).unwrap();
+        self.generate_tags_page("tags.html","public/tags",&global).unwrap();
+        self.generate_categories_page("categories.html","public/categories",&global).unwrap();
+        self.generate_archive_page("archive.html","public/archive",&global).unwrap();
+        self.generate_about_page("about.html","public/about",&global).unwrap();
+        self.generate_link_page("link.html","public/link",&global).unwrap();
 
         Ok(())
     }
     fn generate_post_page(&self,template:&str, output_path: &str, global_data: &Global) -> Result<(), Box<dyn std::error::Error>> {
+        fs::create_dir_all(output_path).unwrap();
         let mut tera = Tera::new("./sources/templates/**/*.html").unwrap();
         let mut context = Context::new();
 
@@ -246,12 +246,13 @@ impl SiteGenerator {
 
             let output = format!("{}/{}.html", output_path, &post.slug);
             let rendered = tera.render(template, &context).unwrap();
-            std::fs::write(output, rendered)?;
+            fs::write(output, rendered)?;
         }
 
         Ok(())
     }
     fn generate_home_page(&self,template:&str, output_path: &str, global_data: &Global) -> Result<(), Box<dyn std::error::Error>> {
+        fs::create_dir_all(output_path).unwrap();
         let mut tera = Tera::new("./sources/templates/**/*.html").unwrap();
         let mut context = Context::new();
         let mut output= String::new();
@@ -260,37 +261,35 @@ impl SiteGenerator {
         context.insert("tags",&global_data.tags);
         context.insert("categories",&global_data.categories);
 
-        let limited_cows = 6;
+        let limited_cows = 7;
         let mut current = 1;
         let total = global_data.posts.len();
 
-        while current <=  total / limited_cows{
+        while current <=  total / limited_cows + 1{
             let page = Page::new(limited_cows,total,current,"/");
-            context.insert("posts",&global_data.posts[(current-1)*6..((current*6))]);
+            context.insert("posts",&global_data.posts[(current-1)*6..((current*6)-1)]);
             context.insert("page",&page);
 
-            if(current == 1){
+            if current == 1{
                 output = format!("{}/index.html", output_path);
-                let rendered =
-                    tera.render(template, &context).unwrap();
             }else{
                 let output_folder = format!("{}/page/{}",output_path,current);
-                fs::create_dir_all(&output_folder);
+                fs::create_dir_all(&output_folder).unwrap();
                 output = format!("{}/index.html", &output_folder);
             }
 
 
             let rendered = tera.render(template, &context).unwrap();
-            std::fs::write(output, rendered)?;
+            fs::write(output, rendered)?;
             current += 1;
         }
 
         Ok(())
     }
     fn generate_tags_page(&self,template:&str, output_path: &str, global_data: &Global) -> Result<(), Box<dyn std::error::Error>> {
-        fs::create_dir_all(output_path);
+        fs::create_dir_all(output_path).unwrap();
 
-        let mut tera = Tera::new("./sources/templates/custom_templates/**/*.html").unwrap();
+        let mut tera = Tera::new("./sources/templates/**/*.html").unwrap();
         let mut context = Context::new();
         let mut output= String::new();
 
@@ -302,19 +301,19 @@ impl SiteGenerator {
         context.insert("post",&custom_post);
 
         output = format!("public/tags/index.html");
-        let rendered = tera.render("tags.html", &context).unwrap();
-        std::fs::write(output, rendered)?;
+        let rendered = tera.render(template, &context).unwrap();
+        fs::write(output, rendered)?;
 
         for tag in &global_data.tags{
-            let mut output_path = format!("public/tags/{}", tag.0.to_string());
-            fs::create_dir_all(output_path);
+            let output_path = format!("public/tags/{}", tag.0.to_string());
+            fs::create_dir_all(output_path).unwrap();
 
             context.insert("posts", tag.1);
             context.insert("tag_name", tag.0);
 
             output = format!("public/tags/{}/index.html", tag.0.to_string());
             let rendered = tera.render("archive.html", &context).unwrap();
-            std::fs::write(output, rendered)?;
+            fs::write(output, rendered)?;
         }
 
 
@@ -322,9 +321,9 @@ impl SiteGenerator {
         Ok(())
     }
     fn generate_categories_page(&self,template:&str, output_path: &str, global_data: &Global) -> Result<(), Box<dyn std::error::Error>> {
-        fs::create_dir_all(output_path);
+        fs::create_dir_all(output_path).unwrap();
 
-        let mut tera = Tera::new("./sources/templates/custom_templates/**/*.html").unwrap();
+        let mut tera = Tera::new("./sources/templates/**/*.html").unwrap();
         let mut context = Context::new();
         let mut output= String::new();
 
@@ -336,19 +335,19 @@ impl SiteGenerator {
         context.insert("post",&custom_post);
 
         output = format!("public/categories/index.html");
-        let rendered = tera.render("categories.html", &context).unwrap();
-        std::fs::write(output, rendered)?;
+        let rendered = tera.render(template, &context).unwrap();
+        fs::write(output, rendered)?;
 
         for category in &global_data.categories{
-            let mut output_path = format!("public/categories/{}", category.0.to_string());
-            fs::create_dir_all(output_path);
+            let output_path = format!("public/categories/{}", category.0.to_string());
+            fs::create_dir_all(output_path).unwrap();
 
             context.insert("posts", category.1);
             context.insert("category_name", category.0);
 
             output = format!("public/categories/{}/index.html", category.0.to_string());
             let rendered = tera.render("archive.html", &context).unwrap();
-            std::fs::write(output, rendered)?;
+            fs::write(output, rendered)?;
         }
 
 
@@ -357,9 +356,9 @@ impl SiteGenerator {
     }
 
     fn generate_archive_page(&self,template:&str, output_path: &str, global_data: &Global) -> Result<(), Box<dyn std::error::Error>> {
-        fs::create_dir_all(output_path);
+        fs::create_dir_all(output_path).unwrap();
 
-        let mut tera = Tera::new("./sources/templates/custom_templates/**/*.html").unwrap();
+        let mut tera = Tera::new("./sources/templates/**/*.html").unwrap();
         let mut context = Context::new();
         let mut output= String::new();
 
@@ -369,45 +368,45 @@ impl SiteGenerator {
 
         let custom_post = parse_markdown_file(&fs::read_to_string("./sources/content/archive/archive.md").unwrap());
         context.insert("post",&custom_post);
+        output = format!("{}/index.html", output_path);
+        let rendered = tera.render(template, &context).unwrap();
+        fs::write(output, rendered)?;
+        Ok(())
+    }
 
-        // output = format!("public/archive/index.html");
-        // let rendered = tera.render("archive.html", &context).unwrap();
-        // std::fs::write(output, rendered)?;
+    fn generate_about_page(&self,template:&str, output_path: &str, global_data: &Global) -> Result<(), Box<dyn std::error::Error>> {
+        fs::create_dir_all(output_path).unwrap();
+        let mut tera = Tera::new("./sources/templates/**/*.html").unwrap();
+        let mut context = Context::new();
+        let mut output= String::new();
 
-        // for post in &global_data.posts{
-        //     let date = Post::parse_date_string(post.date.as_str()).unwrap();
-        //     let year = date.year();
-        //     let month = date.month();
-        //     let day = date.day();
-        //
-        //     output = format!("./archives/{}/{:02}/{:02}", year, month, day);
-        //     println!("{}",output);
-        // }
+        context.insert("posts",&global_data.posts);
+        context.insert("tags",&global_data.tags);
+        context.insert("categories",&global_data.categories);
 
-        let limited_cows = 10;
-        let mut current = 1;
-        let total = global_data.posts.len();
+        let custom_post = parse_markdown_file(&fs::read_to_string("./sources/content/about/about.md").unwrap());
+        context.insert("post",&custom_post);
+        output = format!("{}/index.html", output_path);
+        let rendered = tera.render(template, &context).unwrap();
+        fs::write(output, rendered)?;
 
-        while current <=  total / limited_cows{
-            let page = Page::new(limited_cows,total,current,"/");
-            context.insert("posts",&global_data.posts[(current-1)*limited_cows..((current*limited_cows))]);
-            context.insert("page",&page);
+        Ok(())
+    }
+    fn generate_link_page(&self,template:&str, output_path: &str, global_data: &Global) -> Result<(), Box<dyn std::error::Error>> {
+        fs::create_dir_all(output_path).unwrap();
+        let mut tera = Tera::new("./sources/templates/**/*.html").unwrap();
+        let mut context = Context::new();
+        let mut output= String::new();
 
-            if(current == 1){
-                output = format!("{}/index.html", output_path);
-                let rendered =
-                    tera.render(template, &context).unwrap();
-            }else{
-                let output_folder = format!("{}/page/{}",output_path,current);
-                fs::create_dir_all(&output_folder);
-                output = format!("{}/index.html", &output_folder);
-            }
+        context.insert("posts",&global_data.posts);
+        context.insert("tags",&global_data.tags);
+        context.insert("categories",&global_data.categories);
 
-
-            let rendered = tera.render(template, &context).unwrap();
-            std::fs::write(output, rendered)?;
-            current += 1;
-        }
+        let custom_post = parse_markdown_file(&fs::read_to_string("./sources/content/link/link.md").unwrap());
+        context.insert("post",&custom_post);
+        output = format!("{}/index.html", output_path);
+        let rendered = tera.render(template, &context).unwrap();
+        fs::write(output, rendered)?;
 
         Ok(())
     }
@@ -433,7 +432,7 @@ impl SiteGenerator {
 
                     output = format!("{}/{}.html", output_path, &post.slug);
                     let rendered = tera.render(template, &context).unwrap();
-                    std::fs::write(output, rendered)?;
+                    fs::write(output, rendered)?;
                 }
             }
             "index.html" => {
@@ -446,19 +445,17 @@ impl SiteGenerator {
                     context.insert("posts",&global_data.posts[(current-1)*6..((current*6)-1)]);
                     context.insert("page",&page);
 
-                    if(current == 1){
+                    if current == 1 {
                         output = format!("{}/index.html", output_path);
-                        let rendered =
-                            tera.render(template, &context).unwrap();
                     }else{
                         let output_folder = format!("{}/page/{}",output_path,current);
-                        fs::create_dir_all(&output_folder);
+                        fs::create_dir_all(&output_folder).unwrap();
                         output = format!("{}/index.html", &output_folder);
                     }
 
 
                     let rendered = tera.render(template, &context).unwrap();
-                    std::fs::write(output, rendered)?;
+                    fs::write(output, rendered)?;
                     current += 1;
                 }
 
@@ -470,72 +467,7 @@ impl SiteGenerator {
 
         Ok(())
     }
-    fn generate_custom_page(&self,template:&str, output_path: &str, global_data: &Global, custom_post: &Post) -> Result<(), Box<dyn std::error::Error>> {
-        fs::create_dir_all(output_path).unwrap();
 
-        // 使用模板引擎渲染页面
-        // 将文章内容插入模板
-        // 生成最终的 HTML 文件并保存到 output_path
-        let mut tera = Tera::new("./sources/templates/custom_templates/**/*.html").unwrap();
-        let mut context = Context::new();
-        let mut output= String::new();
-
-        let mut pagination = false;
-        let mut tag_type = false;
-        let mut category_type = false;
-
-        context.insert("posts",&global_data.posts);
-        context.insert("tags",&global_data.tags);
-        context.insert("categories",&global_data.categories);
-
-        context.insert("post",custom_post);
-
-        if !custom_post.tags.is_empty(){
-            for tag in &custom_post.tags{
-                match tag.as_ref() {
-                    "pagination" => {
-                        pagination = true;
-                    }
-                    &_ => {}
-                }
-            }
-        }else{
-
-        }
-
-        if pagination{
-            let limited_cows = 8;
-            let mut current = 1;
-            let total = global_data.posts.len();
-
-            while current <=  total / limited_cows {
-                let page = Page::new(limited_cows,total,current,"/");
-                context.insert("posts",&global_data.posts[(current-1)*8..((current*8)-1)]);
-                context.insert("page",&page);
-
-                if(current == 1){
-                    output = format!("{}/index.html", output_path);
-                    let rendered = tera.render(template, &context).unwrap();
-                }else{
-                    let output_folder = format!("{}/page/{}",output_path,current);
-                    fs::create_dir_all(&output_folder);
-                    output = format!("{}/index.html", &output_folder);
-                }
-
-
-                let rendered = tera.render(template, &context).unwrap();
-                std::fs::write(output, rendered)?;
-                current += 1;
-            }
-        }else{
-            output = format!("{}/index.html", output_path);
-            let rendered = tera.render(template, &context).unwrap();
-            std::fs::write(output, rendered)?;
-        }
-
-
-        Ok(())
-    }
 
 }
 

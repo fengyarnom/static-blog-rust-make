@@ -1,0 +1,10 @@
+<div class="paginator">
+    {% if page.current >= 1 %}
+        <a href="{{page.prev_link}}" class="extend prev">上一页</a>
+    {% endif %}
+        <a href="" class="page_number current">{{page.current}}</a>
+    {% if page.current <= page.total / page.limited_cows %}      
+        <a href="{{page.next_link}}" class="extend next">下一页</a>
+    {% endif %}
+
+</div>

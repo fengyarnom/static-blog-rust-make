@@ -1,20 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="/static/css/style.css">
-</head>
-<body>
-    <h1>Hello World!</h1>
-    {% for post in posts %}
-        <li>
-            <a href="{{ post.link }}"> {{ post.title }} </a>
-        </li>
-    {% endfor %}
+{% extends "base.html" %}
 
-    <a href="{{page.prev_link}}">pre</a>
-    {{page.current}}
-    <a href="{{page.next_link}}">next</a>
-</body>
-</html>
+{% block main_content %}
+    
+    {% for post in posts %}
+        <div class="articles">
+            <div class="post">
+                <div class="header_post">
+                    <div class="title_post"><a href="{{post.link}}">{{post.title}}</a></div>
+                    <div class="detail_post">
+                        <div class="date">发布时间：{{post.date}}</div>
+                        <div class="categories">
+                            归档分类：
+                            <ul>
+                                {% for category_name in post.categories %}
+                                <li><a href="/categories/{{category_name}}">{{category_name}}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content_post">{{post.content|safe}}</div>
+                <div class="tags_post"></div>
+            </div>
+        </div>
+    {% endfor %}
+    {% include "common/pagination.html" %}
+{% endblock %}

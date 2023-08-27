@@ -11,7 +11,9 @@ use notify::{RecommendedWatcher, Watcher, RecursiveMode, Result};
 use std::sync::mpsc::channel;
 use std::time::Duration;
 use std::error::Error;
+use std::fs::File;
 use std::path::Path;
+use chrono::Utc;
 use tokio::spawn;
 
 
@@ -43,7 +45,7 @@ async fn server() -> std::io::Result<()> {
             Err(e) => println!("watch error: {:?}", e),
         }
     }).unwrap();
-    watcher.watch(Path::new("."), RecursiveMode::Recursive).unwrap();
+    watcher.watch(Path::new("./sources/"), RecursiveMode::Recursive).unwrap();
 
     HttpServer::new(|| {
         App::new().service(Files::new("/", "public").index_file("index.html"))
@@ -72,7 +74,28 @@ async fn main() {
                 eprintln!("Error starting server: {}", e);
                 process::exit(1);
             }
-            println!("hey");
+
+        }
+        "new" => {
+            if args.len() < 3 {
+                println!("Usage: new 'post title'");
+                return;
+            }
+            let local_time = Utc::now().naive_utc();
+            let post_title = args[2].as_str();
+            let file_name = format!("sources/content/posts/{}-{}.md", local_time.format("%Y-%m-%d"),post_title.to_lowercase().replace(" ", "-"));
+
+            let file_content = format!(
+                                    "---
+title: {}
+date: {}
+tags:
+categories:
+---",post_title,local_time.format("%Y-%m-%d %H:%M:%S"));
+
+            let mut file = File::create(&file_name).unwrap();
+            file.write_all(file_content.as_bytes()).unwrap();
+            println!("New post created: {}", &file_name);
 
         }
         _ => println!("Unknown command: {}", command),

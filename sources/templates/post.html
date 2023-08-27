@@ -1,14 +1,33 @@
-<!DOCTYPE html>
-<html>
-<head>
+{% extends "base.html" %}
 
-    <meta charset="UTF-8">
-    <title>{{ post.title }}</title>
-    <link rel="stylesheet" href="/static/css/style.css">
-</head>
-<body>
-    <h1>{{ post.title }}</h1>
-    <h3>{{ post.date }}</h3>
-    {{ post.content|safe }}
-</body>
-</html>
+{% block main_content %}
+
+<div class="post_area">
+    <div class="post">
+        <div class="header_post">
+            <div class="title_post"><a href="">{{post.title}}</a></div>
+            <div class="detail_post">
+                <div class="date">发布时间：{{post.date_simp}}</div>
+                <div class="categories">
+                    归档分类：
+                    <ul>
+                        {% for category_name in post.categories %}
+                        <li><a href="/categories/{{category_name}}">{{category_name}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="tags_post">
+                    标签：
+                    <ul>
+                        {% for tag_name in post.tags %}
+                        <li><a href="/tags/{{tag_name}}">{{tag_name}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="content_post">{{post.content|safe}}</div>
+    </div>
+</div>
+{% endblock %}

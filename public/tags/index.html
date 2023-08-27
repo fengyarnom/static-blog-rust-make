@@ -1,54 +1,183 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Tags Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%2210 0 100 100%22><text y=%22.90em%22 font-size=%2290%22>🐱</text></svg>">
+    <title>Yarnom'Blog</title>
 </head>
 <body>
-  <h1>Tags</h1>
+    <header>
+    <div class="nav_area">
+        <div class="logo">
+            <a href="/">Yarnom</a>
+            <div class="menu_mobile" onclick="toggleMenu()">
+                <span class="menu_icon">&#9776;</span> <!-- Unicode hamburger icon -->
+            </div>
+        </div>
+        
+        <div class="nav_bar">
+            <ul>
+                
+                <li><a href="/archive">归档</a></li>
+                <li><a href="/categories">分类</a></li>
+                <li><a href="/tags">标签</a></li>
+                <li><a href="https://memos.yarnom.top">碎碎念</a></li>
+                <li><a href="/link">友链</a></li>
+                <li><a href="/about">关于</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+<script>
+    function toggleMenu() {
+    var menu = document.querySelector('.nav_bar');
+        menu.classList.toggle('show_nav_bar');
+    }
+</script>
+    
+    <div class="main_container">
+        <div class="main_content main_area">
+            
+<div class="tags-area">
+  <div class="header"><span >标签</span></div>
+  
+    <div class="tags">
+      
+      <div class="tag">
+        <a href="/tags/ARM" class="terms_link">ARM</a>
+      <span class="terms_count">2</span>
+      </div>
+      
+      <div class="tag">
+        <a href="/tags/Debtap" class="terms_link">Debtap</a>
+      <span class="terms_count">1</span>
+      </div>
+      
+      <div class="tag">
+        <a href="/tags/Flask" class="terms_link">Flask</a>
+      <span class="terms_count">2</span>
+      </div>
+      
+      <div class="tag">
+        <a href="/tags/Linux" class="terms_link">Linux</a>
+      <span class="terms_count">3</span>
+      </div>
+      
+      <div class="tag">
+        <a href="/tags/NFS" class="terms_link">NFS</a>
+      <span class="terms_count">1</span>
+      </div>
+      
+      <div class="tag">
+        <a href="/tags/Nginx" class="terms_link">Nginx</a>
+      <span class="terms_count">1</span>
+      </div>
+      
+      <div class="tag">
+        <a href="/tags/Orangepi" class="terms_link">Orangepi</a>
+      <span class="terms_count">1</span>
+      </div>
+      
+      <div class="tag">
+        <a href="/tags/React" class="terms_link">React</a>
+      <span class="terms_count">1</span>
+      </div>
+      
+      <div class="tag">
+        <a href="/tags/Rust" class="terms_link">Rust</a>
+      <span class="terms_count">1</span>
+      </div>
+      
+      <div class="tag">
+        <a href="/tags/VPS" class="terms_link">VPS</a>
+      <span class="terms_count">1</span>
+      </div>
+      
+      <div class="tag">
+        <a href="/tags/git" class="terms_link">git</a>
+      <span class="terms_count">2</span>
+      </div>
+      
+      <div class="tag">
+        <a href="/tags/post" class="terms_link">post</a>
+      <span class="terms_count">15</span>
+      </div>
+      
+      <div class="tag">
+        <a href="/tags/ssh" class="terms_link">ssh</a>
+      <span class="terms_count">1</span>
+      </div>
+      
+      <div class="tag">
+        <a href="/tags/v2ray" class="terms_link">v2ray</a>
+      <span class="terms_count">1</span>
+      </div>
+      
+      <div class="tag">
+        <a href="/tags/开发日志" class="terms_link">开发日志</a>
+      <span class="terms_count">1</span>
+      </div>
+      
+      <div class="tag">
+        <a href="/tags/开发记录" class="terms_link">开发记录</a>
+      <span class="terms_count">4</span>
+      </div>
+      
+      <div class="tag">
+        <a href="/tags/思考" class="terms_link">思考</a>
+      <span class="terms_count">3</span>
+      </div>
+      
+      <div class="tag">
+        <a href="/tags/新年" class="terms_link">新年</a>
+      <span class="terms_count">1</span>
+      </div>
+      
+      <div class="tag">
+        <a href="/tags/日志" class="terms_link">日志</a>
+      <span class="terms_count">2</span>
+      </div>
+      
+      <div class="tag">
+        <a href="/tags/歌" class="terms_link">歌</a>
+      <span class="terms_count">1</span>
+      </div>
+      
+      <div class="tag">
+        <a href="/tags/生日" class="terms_link">生日</a>
+      <span class="terms_count">1</span>
+      </div>
+      
+      <div class="tag">
+        <a href="/tags/笔记" class="terms_link">笔记</a>
+      <span class="terms_count">1</span>
+      </div>
+      
+      <div class="tag">
+        <a href="/tags/糖醋蛋黄" class="terms_link">糖醋蛋黄</a>
+      <span class="terms_count">1</span>
+      </div>
+      
+      <div class="tag">
+        <a href="/tags/网站维护" class="terms_link">网站维护</a>
+      <span class="terms_count">2</span>
+      </div>
+      
+    </div>
 
   
-    <a href="/tags/ARM">ARM</a>
-  
-    <a href="/tags/Debtap">Debtap</a>
-  
-    <a href="/tags/Flask">Flask</a>
-  
-    <a href="/tags/Linux">Linux</a>
-  
-    <a href="/tags/NFS">NFS</a>
-  
-    <a href="/tags/Nginx">Nginx</a>
-  
-    <a href="/tags/Orangepi">Orangepi</a>
-  
-    <a href="/tags/React">React</a>
-  
-    <a href="/tags/Rust">Rust</a>
-  
-    <a href="/tags/git">git</a>
-  
-    <a href="/tags/post">post</a>
-  
-    <a href="/tags/ssh">ssh</a>
-  
-    <a href="/tags/开发记录">开发记录</a>
-  
-    <a href="/tags/思考">思考</a>
-  
-    <a href="/tags/新年">新年</a>
-  
-    <a href="/tags/日志">日志</a>
-  
-    <a href="/tags/歌">歌</a>
-  
-    <a href="/tags/生日">生日</a>
-  
-    <a href="/tags/笔记">笔记</a>
-  
-    <a href="/tags/糖醋蛋黄">糖醋蛋黄</a>
-  
-    <a href="/tags/网站维护">网站维护</a>
-  
+</div>
+
+
+
+        </div>
+    </div>
+
+    
 </body>
+<footer>
+    <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
+</footer> 
 </html>

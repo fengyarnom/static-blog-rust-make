@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+    <div class="archive">
+        {% for post in posts %}
+        <li>
+            <span class="post_date">{{ post.date_simp }}</span>
+            <a href="{{ post.link }}" class="post_title">{{ post.title }}</a>
+        </li>
+        {% endfor %}
+    </div>
+    
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+<div class="categories-area">
+  <div class="header"><span >分类</span></div>
+  
+    <div class="categories">
+      {% for category_name,posts in categories %}
+      <div class="category">
+        <a href="/categories/{{category_name}}" class="terms_link">{{ category_name }}</a>
+      <span class="terms_count">{{posts|length}}</span>
+      </div>
+      {% endfor %}
+    </div>
+
+  
+</div>
+
+
+{% endblock %}

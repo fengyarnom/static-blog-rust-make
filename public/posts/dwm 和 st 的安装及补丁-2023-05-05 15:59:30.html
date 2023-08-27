@@ -1,15 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-
     <meta charset="UTF-8">
-    <title>dwm 和 st 的安装及补丁</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%2210 0 100 100%22><text y=%22.90em%22 font-size=%2290%22>🐱</text></svg>">
+    <title>Yarnom'Blog</title>
 </head>
 <body>
-    <h1>dwm 和 st 的安装及补丁</h1>
-    <h3>2023-05-05 15:59:30</h3>
-    <h2>前言</h2>
+    <header>
+    <div class="nav_area">
+        <div class="logo">
+            <a href="/">Yarnom</a>
+            <div class="menu_mobile" onclick="toggleMenu()">
+                <span class="menu_icon">&#9776;</span> <!-- Unicode hamburger icon -->
+            </div>
+        </div>
+        
+        <div class="nav_bar">
+            <ul>
+                
+                <li><a href="/archive">归档</a></li>
+                <li><a href="/categories">分类</a></li>
+                <li><a href="/tags">标签</a></li>
+                <li><a href="https://memos.yarnom.top">碎碎念</a></li>
+                <li><a href="/link">友链</a></li>
+                <li><a href="/about">关于</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+<script>
+    function toggleMenu() {
+    var menu = document.querySelector('.nav_bar');
+        menu.classList.toggle('show_nav_bar');
+    }
+</script>
+    
+    <div class="main_container">
+        <div class="main_content main_area">
+            
+
+<div class="post_area">
+    <div class="post">
+        <div class="header_post">
+            <div class="title_post"><a href="">dwm 和 st 的安装及补丁</a></div>
+            <div class="detail_post">
+                <div class="date">发布时间：2023-05-05</div>
+                <div class="categories">
+                    归档分类：
+                    <ul>
+                        
+                        <li><a href="/categories/default">default</a></li>
+                        
+                    </ul>
+                </div>
+                <div class="tags_post">
+                    标签：
+                    <ul>
+                        
+                        <li><a href="/tags/post">post</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="content_post"><h2>前言</h2>
 <p>得益于近些日子在学校深入学习了很多关于 Linux 的知识，加之之前也多次重装过 Arch ，这些因素综合起来后，这一次的系统安装可以说颇为顺畅，之前因无法理解的地方而导致难以下手的操作，所赖知识见长，逐渐克服且熟练了起来。</p>
 <p>本次为了更加深入地去学习 Linux ，所以放弃了像 Gnome 这样简单易用的桌面环境, 而是使用像 DWM 这样更简单的窗口管理器，虽然是自找麻烦，但我也乐在其中，我会在本文中简略地记录下折腾的过程。</p>
 <h2>DWM 和 st 的安装</h2>
@@ -77,6 +134,16 @@ $ patch p1 &lt; dwm-alpha-20201019-61bb8b2.diff
 <pre><code class="language-bash">compton -b
 </code></pre>
 <p>（未完待续）</p>
+</div>
+    </div>
+</div>
 
+        </div>
+    </div>
+
+    
 </body>
+<footer>
+    <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
+</footer> 
 </html>
