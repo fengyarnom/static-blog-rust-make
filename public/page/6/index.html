@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%2210 0 100 100%22><text y=%22.90em%22 font-size=%2290%22>🐱</text></svg>">
+    <title>Yarnom'Blog</title>
+</head>
+<body>
+    <header>
+    <div class="nav_area">
+        <div class="logo">
+            <a href="/">Yarnom</a>
+            <div class="menu_mobile" onclick="toggleMenu()">
+                <span class="menu_icon">&#9776;</span> <!-- Unicode hamburger icon -->
+            </div>
+        </div>
+        
+        <div class="nav_bar">
+            <ul>
+                
+                <li><a href="/archive">归档</a></li>
+                <li><a href="/categories">分类</a></li>
+                <li><a href="/tags">标签</a></li>
+                <li><a href="https://memos.yarnom.top">碎碎念</a></li>
+                <li><a href="/link">友链</a></li>
+                <li><a href="/about">关于</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+<script>
+    function toggleMenu() {
+    var menu = document.querySelector('.nav_bar');
+        menu.classList.toggle('show_nav_bar');
+    }
+</script>
+    
+    <div class="main_container">
+        <div class="main_content main_area">
+            
+    
+    
+        <div class="articles">
+            <div class="post">
+                <div class="header_post">
+                    <div class="title_post"><a href="&#x2F;posts&#x2F;记录一首歌-2022-11-21 19:11:34.html">记录一首歌</a></div>
+                    <div class="detail_post">
+                        <div class="date">发布时间：2022-11-21 19:11:34</div>
+                        <div class="categories">
+                            归档分类：
+                            <ul>
+                                
+                                <li><a href="/categories/杂">杂</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content_post"><p>原唱是：B站UP主 糖醋蛋黄</p>
+<p>月昢昢兮 尘莫莫 几时归矩州啊
+风萧萧兮 寒漠漠 远隔离思多啊
+夜行千里做远客 半生半将魂魄赊
+山离离 水漓漓 荒唐事历历</p>
+</div>
+                <div class="tags_post"></div>
+            </div>
+        </div>
+    
+        <div class="articles">
+            <div class="post">
+                <div class="header_post">
+                    <div class="title_post"><a href="&#x2F;posts&#x2F;考研决定-2022-11-11 10:35:56.html">考研决定</a></div>
+                    <div class="detail_post">
+                        <div class="date">发布时间：2022-11-11 10:35:56</div>
+                        <div class="categories">
+                            归档分类：
+                            <ul>
+                                
+                                <li><a href="/categories/随笔">随笔</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content_post"><p>思来想去还是希望去考研，初步定的目标是***『广西大学』***，考取 计算机技术（085404）专硕。</p>
+<p>1） 初试科目代码</p>
+<p>① 101|思想政治理论</p>
+<p>② 204|英语（二）</p>
+<p>③ 302|数学（二）</p>
+<p>④ 828|程序设计与数据结构</p>
+<p>科目更少，我的理论并不强，或许这个目标更适合于我。</p>
+<p>828主要涵盖的内容是<em><strong>数据结构、程序设计、算法</strong></em>。</p>
+</div>
+                <div class="tags_post"></div>
+            </div>
+        </div>
+    
+        <div class="articles">
+            <div class="post">
+                <div class="header_post">
+                    <div class="title_post"><a href="&#x2F;posts&#x2F;给 GIT 和 SSH 配置代理-2022-11-10 20:38:27.html">给 GIT 和 SSH 配置代理</a></div>
+                    <div class="detail_post">
+                        <div class="date">发布时间：2022-11-10 20:38:27</div>
+                        <div class="categories">
+                            归档分类：
+                            <ul>
+                                
+                                <li><a href="/categories/教程记录">教程记录</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content_post"><p>今天 push 不了项目，估计又是网络的问题，决定还是给git和ssh配置一下代理，不然太难受了。
+配置记录如下：
+1.使用socks5代理，我这边的端口是1089</p>
+<pre><code class="language-shell">git config --global http.https://github.com.proxy socks5://127.0.0.1:1089
+</code></pre>
+<p>2.修改 ~/.ssh/config 文件</p>
+<pre><code class="language-shell">Host github.com
+    User git
+    ProxyCommand nc -v -x 127.0.0.1:1089 %h %p
+</code></pre>
+</div>
+                <div class="tags_post"></div>
+            </div>
+        </div>
+    
+        <div class="articles">
+            <div class="post">
+                <div class="header_post">
+                    <div class="title_post"><a href="&#x2F;posts&#x2F;Linux 进程学习 二-2022-10-16 16:13:33.html">Linux 进程学习 二</a></div>
+                    <div class="detail_post">
+                        <div class="date">发布时间：2022-10-16 16:13:33</div>
+                        <div class="categories">
+                            归档分类：
+                            <ul>
+                                
+                                <li><a href="/categories/Linux 进程学习">Linux 进程学习</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content_post"><h2>创建进程</h2>
+<p>在 Linux 中每个进程都是父进程创建的，Linux 启动时会创建init 进程，这是系统的第一个进程，其 PID 为 1。
+在 C 语言中，我们可以用fork函数创建新的进程：</p>
+<pre><code class="language-c">#include &lt;unistd.h&gt;
+pid_t fork(void);
+</code></pre>
+<ul>
+<li>If fork() returns a negative value, the creation of a child process was unsuccessful.</li>
+<li>fork() returns a zero to the newly created child process.</li>
+<li>fork() returns a positive value, the process ID of the child process, to the parent. The returned process ID is of type pid_t defined in sys/types.h. Normally, the process ID is an integer. Moreover, a process can use function getpid() to retrieve the process ID assigned to this process.</li>
+</ul>
+<p>也就是：</p>
+<blockquote>
+<p>On success, the PID of the child process is returned in the
+parent, and 0 is returned in the child.  On failure, -1 is
+returned in the parent, no child process is created, and errno is
+set to indicate the error.</p>
+</blockquote>
+<p>也就是：</p>
+<ul>
+<li>返回负数，创建失败</li>
+<li>返回 0 ，就是子进程，它永远返回 0</li>
+<li>返回大于 0 的整数，这是父进程，它会返回子进程的pid</li>
+</ul>
+<h2>终止进程</h2>
+</div>
+                <div class="tags_post"></div>
+            </div>
+        </div>
+    
+        <div class="articles">
+            <div class="post">
+                <div class="header_post">
+                    <div class="title_post"><a href="&#x2F;posts&#x2F;Linux 进程学习 一-2022-10-16 15:54:11.html">Linux 进程学习 一</a></div>
+                    <div class="detail_post">
+                        <div class="date">发布时间：2022-10-16 15:54:11</div>
+                        <div class="categories">
+                            归档分类：
+                            <ul>
+                                
+                                <li><a href="/categories/Linux 进程学习">Linux 进程学习</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content_post"><h2>什么是进程？</h2>
+<p>在了解进程的时候，首先得知道什么是程序。
+操作系统其实学过，程序被执行时，操作系统将可执行文件复制到内存中，这就是程序，而进程则是程序的实例，是系统资源分配的基本单位，它被唯一标识于 PCB 之中，也就是进程控制块。</p>
+<h2>ps 命令 查看进程</h2>
+<blockquote>
+<p>Note that ps -aux is distinct from ps aux.  The POSIX and UNIX standards require that ps -aux print all processes owned by a user named x, as well as printing all processes that would be selected by the -a option.  If the user named x does not exist, this ps may
+interpret the command as ps aux instead and print a warning.  This behavior is intended to aid in transitioning old scripts and habits. It is fragile, subject to change, and thus should not be relied upon.</p>
+</blockquote>
+<blockquote>
+<p>To see every process on the system using BSD syntax:
+ps ax
+ps axu</p>
+</blockquote>
+<p>也就是说，我们可以通过 <strong>ps axu</strong> 来查看系统中的进程</p>
+<h2>top 命令 查看进程</h2>
+<blockquote>
+<p>The  top program provides a dynamic real-time view of a running system.</p>
+</blockquote>
+<p>这个命令显示的进程状态是动态更新的。
+以下是常用命令：</p>
+<ul>
+<li>q：退出top命令</li>
+<li><!-- raw HTML omitted -->：立即刷新</li>
+<li>s：设置刷新时间间隔</li>
+<li>t：显示或隐藏进程和CPU状态信息</li>
+<li>m：显示或隐藏内存状态信息</li>
+<li>P：按%CPU使用率排行</li>
+<li>M：按%MEM排行</li>
+<li>u：指定显示用户进程</li>
+<li>k：kill进程</li>
+<li>i：只显示正在运行的进程</li>
+<li>h：帮助命令。</li>
+</ul>
+</div>
+                <div class="tags_post"></div>
+            </div>
+        </div>
+    
+    <div class="paginator">
+    
+        <a href="&#x2F;page&#x2F;5" class="extend prev">上一页</a>
+    
+        <a href="" class="page_number current">6</a>
+    
+
+</div>
+
+        </div>
+    </div>
+
+    
+</body>
+<footer>
+    <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
+</footer> 
+</html>

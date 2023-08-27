@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%2210 0 100 100%22><text y=%22.90em%22 font-size=%2290%22>🐱</text></svg>">
+    <title>Yarnom'Blog</title>
+</head>
+<body>
+    <header>
+    <div class="nav_area">
+        <div class="logo">
+            <a href="/">Yarnom</a>
+            <div class="menu_mobile" onclick="toggleMenu()">
+                <span class="menu_icon">&#9776;</span> <!-- Unicode hamburger icon -->
+            </div>
+        </div>
+        
+        <div class="nav_bar">
+            <ul>
+                
+                <li><a href="/archive">归档</a></li>
+                <li><a href="/categories">分类</a></li>
+                <li><a href="/tags">标签</a></li>
+                <li><a href="https://memos.yarnom.top">碎碎念</a></li>
+                <li><a href="/link">友链</a></li>
+                <li><a href="/about">关于</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+<script>
+    function toggleMenu() {
+    var menu = document.querySelector('.nav_bar');
+        menu.classList.toggle('show_nav_bar');
+    }
+</script>
+    
+    <div class="main_container">
+        <div class="main_content main_area">
+            
+    <div class="about-area">
+        <h2>Yarnom</h2>
+        <div class="content_post">
+            <h3>关于我</h3>
+<p>男，01年生，目前暂在大学学习计算机科学专业。</p>
+<ul>
+<li>爱猫，~~虽然从来没有养过(bushi)~~</li>
+<li>喜欢历史，严格来说比起计算机，我应该更喜欢历史专业。</li>
+<li>喜欢打羽毛球</li>
+</ul>
+<h3>关于这个网站</h3>
+<p>事实上，我曾经自己完成过很多个不太成熟的博客系统，从当初的PHP到近几年的Flask,学习这些后端语言后，总是想着写一个博客系统来巩固一下自己的学习成果。</p>
+<p>但就目前来说，我还是直接使用 Hexo 这个静态博客系统，因为资金紧张加之腾讯服务器学生优惠已经用完，使得我没办法承担服务器的高昂费用，所以退而求其次，使用这个静态的博客系统，它目前受Github托管。</p>
+<p>我基于 Hexo 开发了一套关于它的主题，也就是现在看到的这一页面样式，或许之后再完善一下可以上传到社区。</p>
+
+        </div>
+    </div>
+
+
+
+        </div>
+    </div>
+
+    
+</body>
+<footer>
+    <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
+</footer> 
+</html>

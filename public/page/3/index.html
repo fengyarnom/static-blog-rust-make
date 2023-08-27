@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%2210 0 100 100%22><text y=%22.90em%22 font-size=%2290%22>🐱</text></svg>">
+    <title>Yarnom'Blog</title>
+</head>
+<body>
+    <header>
+    <div class="nav_area">
+        <div class="logo">
+            <a href="/">Yarnom</a>
+            <div class="menu_mobile" onclick="toggleMenu()">
+                <span class="menu_icon">&#9776;</span> <!-- Unicode hamburger icon -->
+            </div>
+        </div>
+        
+        <div class="nav_bar">
+            <ul>
+                
+                <li><a href="/archive">归档</a></li>
+                <li><a href="/categories">分类</a></li>
+                <li><a href="/tags">标签</a></li>
+                <li><a href="https://memos.yarnom.top">碎碎念</a></li>
+                <li><a href="/link">友链</a></li>
+                <li><a href="/about">关于</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+<script>
+    function toggleMenu() {
+    var menu = document.querySelector('.nav_bar');
+        menu.classList.toggle('show_nav_bar');
+    }
+</script>
+    
+    <div class="main_container">
+        <div class="main_content main_area">
+            
+    
+    
+        <div class="articles">
+            <div class="post">
+                <div class="header_post">
+                    <div class="title_post"><a href="&#x2F;posts&#x2F;重新安装 Archlinux-2023-05-03 11:22:11.html">重新安装 Archlinux</a></div>
+                    <div class="detail_post">
+                        <div class="date">发布时间：2023-05-03 11:22:11</div>
+                        <div class="categories">
+                            归档分类：
+                            <ul>
+                                
+                                <li><a href="/categories/default">default</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content_post"><h2>前言</h2>
+<p>最近系统频繁死机，通过初步判断，应该是图形界面的卡死，但不合理的是 —— 我无法通过魔法键退出到tty界面……</p>
+<p>我尝试了复现，但这似乎是没有规律的，我其实开始怀疑是我的SSD的问题了，但转头用了两天DWM，期间没有出现卡死现象，那问题很大可能就是图形界面卡死，Gnome和我目前的系统内核不匹配？</p>
+<p>总之，我决定对系统做一次全面的重置。</p>
+<p>这里放一个 Chrome 插件： <a href="/download/Ghelper-v2.8.2.crx">Ghelper</a></p>
+</div>
+                <div class="tags_post"></div>
+            </div>
+        </div>
+    
+        <div class="articles">
+            <div class="post">
+                <div class="header_post">
+                    <div class="title_post"><a href="&#x2F;posts&#x2F;目前学习进展-2023-04-08 14:10:29.html">目前学习进展</a></div>
+                    <div class="detail_post">
+                        <div class="date">发布时间：2023-04-08 14:10:29</div>
+                        <div class="categories">
+                            归档分类：
+                            <ul>
+                                
+                                <li><a href="/categories/default">default</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content_post"><p>时间已经进入了四月份，我的学习情况需要得到一次总结。</p>
+<p>在这个月中主要巩固了高等数学的基础运算，包括求极限、求积分、求导，这些基础计算能力进行了高强度的训练。积分的题依旧很难，但相比之前已经有了很大的进展。</p>
+<p>英语复习仍停留在背单词阶段，还是不敢去尝试真题，这显然是有问题的。</p>
+</div>
+                <div class="tags_post"></div>
+            </div>
+        </div>
+    
+        <div class="articles">
+            <div class="post">
+                <div class="header_post">
+                    <div class="title_post"><a href="&#x2F;posts&#x2F;[NFS] mount: Connection timed out-2023-04-06 20:09:29.html">[NFS] mount: Connection timed out</a></div>
+                    <div class="detail_post">
+                        <div class="date">发布时间：2023-04-06 20:09:29</div>
+                        <div class="categories">
+                            归档分类：
+                            <ul>
+                                
+                                <li><a href="/categories/ARM 学习总结">ARM 学习总结</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content_post"><h2>问题描述</h2>
+<p>Linux 服务端和 Arm 开发板客户端进行 NFS 服务的连接。</p>
+<p>Linux 和 Arm 开发板之间能ping通，并且处于同一网端，且掩码、网口相同，但是在执行下面的程序时发生超时错误。</p>
+<p>在服务端的nfs配置完全正确的情况下，Arm开发板还是无法正确连接nfs服务器。</p>
+<pre><code class="language-bash">[root@FORLINX6410]# mount -t nfs -o nolock,hard 192.168.1.5:/home/yarnom/nfs /mnt
+mount: mounting 192.168.1.5:/home/yarnom/nfs on /mnt failed: Connection timed out
+
+</code></pre>
+<h2>解决</h2>
+<p>这个问题困扰了我两天终于在这个<a href="https://stackoverflow.com/questions/45938202/mount-nfs-connection-timed-out-on-ubuntu-14-04-1-lts">帖子</a>里找到了解决方案。</p>
+<blockquote>
+<p>Mount the NFS filesystem using the TCP protocol instead of the default UDP protocol. Many NFS servers only support UDP.</p>
+</blockquote>
+<p>这是在NFSv3中添加了对TCP协议的支持：</p>
+<p>总之，我尝试了下面的命令，使用了tcp协议：</p>
+<pre><code class="language-bash">$ mount -t nfs -o nolock,proto=tcp,port=2049 192.168.1.5:/home/yarnom/nfs /mnt
+</code></pre>
+<p>这个协议最终使我正确连接上了nfs服务器。</p>
+</div>
+                <div class="tags_post"></div>
+            </div>
+        </div>
+    
+        <div class="articles">
+            <div class="post">
+                <div class="header_post">
+                    <div class="title_post"><a href="&#x2F;posts&#x2F;2023-03-31 英语翻译练习-2023-03-31 13:20:27.html">2023-03-31 英语翻译练习</a></div>
+                    <div class="detail_post">
+                        <div class="date">发布时间：2023-03-31 13:20:27</div>
+                        <div class="categories">
+                            归档分类：
+                            <ul>
+                                
+                                <li><a href="/categories/default">default</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content_post"><p>Studying for a graduate exam can be challenging, but with the right mindset and study strategies, it can be manageable. It's important to prioritize your time, focusing on your weak areas while also reviewing what you already know. Practice exams can be helpful in identifying areas for improvement and getting a sense of the exam format. Additionally, developing good study habits, such as taking breaks and getting enough sleep, can increase your overall productivity and retention of material. Remember to stay motivated and keep a positive attitude, as this will help you stay focused and achieve your goals.</p>
+<p>备考研究生考试可能是具有挑战性的，但是只要拥有正确的心态和学习策略，就可以应对。重要的是要优先考虑时间，专注于自己的薄弱领域，同时复习已经掌握的知识。模拟考试可以帮助您确定需要改进的方面，并了解考试的格式。此外，养成良好的学习习惯，如休息和充足的睡眠，可以提高您的总体生产力和记忆材料的能力。记住要保持动力和积极的态度，因为这将帮助您保持专注，实现自己的目标。</p>
+<p>prioritize - 优先考虑
+weak areas - 薄弱领域
+retention - 记忆
+productivity - 生产力/工作效率
+positive attitude - 积极态度</p>
+</div>
+                <div class="tags_post"></div>
+            </div>
+        </div>
+    
+        <div class="articles">
+            <div class="post">
+                <div class="header_post">
+                    <div class="title_post"><a href="&#x2F;posts&#x2F;对未来的一些思考-2023-03-28 14:43:31.html">对未来的一些思考</a></div>
+                    <div class="detail_post">
+                        <div class="date">发布时间：2023-03-28 14:43:31</div>
+                        <div class="categories">
+                            归档分类：
+                            <ul>
+                                
+                                <li><a href="/categories/札记">札记</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content_post"><p>这段时间我在写积分题，写到后面的难题感觉特别的痛苦，我自然是不应该放弃的，我应该坚持下去。</p>
+<p>虽然如此劝慰自己，但在行动上还是逃避，退后。</p>
+<p>自闭。</p>
+<p>走了出来，为了什么？</p>
+<p>不去逃避就是最大的勇气。</p>
+</div>
+                <div class="tags_post"></div>
+            </div>
+        </div>
+    
+    <div class="paginator">
+    
+        <a href="&#x2F;page&#x2F;2" class="extend prev">上一页</a>
+    
+        <a href="" class="page_number current">3</a>
+          
+        <a href="&#x2F;page&#x2F;4" class="extend next">下一页</a>
+    
+
+</div>
+
+        </div>
+    </div>
+
+    
+</body>
+<footer>
+    <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
+</footer> 
+</html>

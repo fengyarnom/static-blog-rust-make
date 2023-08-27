@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%2210 0 100 100%22><text y=%22.90em%22 font-size=%2290%22>🐱</text></svg>">
+    <title>Yarnom'Blog</title>
+</head>
+<body>
+    <header>
+    <div class="nav_area">
+        <div class="logo">
+            <a href="/">Yarnom</a>
+            <div class="menu_mobile" onclick="toggleMenu()">
+                <span class="menu_icon">&#9776;</span> <!-- Unicode hamburger icon -->
+            </div>
+        </div>
+        
+        <div class="nav_bar">
+            <ul>
+                
+                <li><a href="/archive">归档</a></li>
+                <li><a href="/categories">分类</a></li>
+                <li><a href="/tags">标签</a></li>
+                <li><a href="https://memos.yarnom.top">碎碎念</a></li>
+                <li><a href="/link">友链</a></li>
+                <li><a href="/about">关于</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+<script>
+    function toggleMenu() {
+    var menu = document.querySelector('.nav_bar');
+        menu.classList.toggle('show_nav_bar');
+    }
+</script>
+    
+    <div class="main_container">
+        <div class="main_content main_area">
+            
+    
+    
+        <div class="articles">
+            <div class="post">
+                <div class="header_post">
+                    <div class="title_post"><a href="&#x2F;posts&#x2F;交给命运-2023-05-30 19:07:31.html">交给命运</a></div>
+                    <div class="detail_post">
+                        <div class="date">发布时间：2023-05-30 19:07:31</div>
+                        <div class="categories">
+                            归档分类：
+                            <ul>
+                                
+                                <li><a href="/categories/default">default</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content_post"><p>今日学院召开了实习大会，要求成绩达到一定范围内才能获得在校实习的机会，我的理论成绩可能达不到它的要求了，若是没有校内实习的机会，则没有足够多的时间完成复习，那么成功考上的可能性也将大幅度降低。</p>
+<p>我仍然在思考未来的走向，我似乎又把自己推入了另一个深渊，我的无能，我的懒惰终究带来了应有的报应……</p>
+</div>
+                <div class="tags_post"></div>
+            </div>
+        </div>
+    
+        <div class="articles">
+            <div class="post">
+                <div class="header_post">
+                    <div class="title_post"><a href="&#x2F;posts&#x2F;V2ray 搭建与配置记录-2023-05-22 12:34:43.html">V2ray 搭建与配置记录</a></div>
+                    <div class="detail_post">
+                        <div class="date">发布时间：2023-05-22 12:34:43</div>
+                        <div class="categories">
+                            归档分类：
+                            <ul>
+                                
+                                <li><a href="/categories/v2ray">v2ray</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content_post"><h2>前言</h2>
+<p>近来想纯净自己的ip，同时也想试着搭建 v2ray 服务供以自己代理使用，所以上两个星期便购买了一台 Vultr 的 VPS。出现了一些问题，同时也确实都得以解决了，这里将问题和解决办法列出：</p>
+<h3>1. 未做伪装的 ip 被封杀</h3>
+<p>这是第一次尝试使用 vps 搭建 v2ray 服务，事实上非常的顺利，我确实完成了 v2ray 的搭建，但是第三天便遭到了中国政府的防火墙一记 ban ip 操作。现在想着这是极为危险的，但事情还得继续，问题自然是发生在我未对 v2ray 进行伪装，因为初次接触，所以对很多新的名词有恐惧心理，一开始便没有去尝试伪装操作，最终酿下错误，但是错误的本身其实也在推动着我技术的进步。</p>
+<p>问题的解决方法是，首先通过 WebSocket+TLS+Web 完成对传输层流量伪装，原理就是通过 Nginx 搭建了一个真实的网站，分流一个特定的路由去转发 v2ray 的流量，其实正常的伪装到这里就结束了。但前面我说了，我的 VPS ip 被封杀了，其导致了我没办法在国内正常通过 ssh 访问到服务器，所以根据攻略我又加了一层伪装，我将我的域名名服务器交给 cloudflare 让其帮我把域名伪装成其他的ip，从而躲过封杀。</p>
+<p>这样的后果也很明显，虽然更加安全了，但是代理速度确实也下来了。。。于是，我还是决定摧毁当前的 vps ，重新构建一个，Vulter 会重新分配一个 新的ip。</p>
+<h3>2. ChatGPT 封杀所有 vultr 的 ip</h3>
+<p>如小标题所言，openai 确实封杀了所有来自 vultr 的 ip，但是这个问题不大，我还是通过 cloundflare 单独对这个域名伪装了 ip 得以成功使用chatgpt，这个在后文中会详细讲到。</p>
+<h2>配置 vps 和 v2ray</h2>
+<h3>修改 hostname</h3>
+<p>这个对v2ray 没啥子用，只是我想改而已：）</p>
+<pre><code>vim /etc/hostname
+
+</code></pre>
+<h3>安装 git</h3>
+<pre><code>apt-get install git
+</code></pre>
+<h3>安装 zsh 和 ohmyzsh</h3>
+<p>Linux 自带的 bash 不是那么地方便使用，所以换成 zsh 是个更好的选择。</p>
+<pre><code>apt-get install zsh
+sh -c &quot;$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)&quot;
+</code></pre>
+<h3>安装 v2ray</h3>
+<h4>通过官方脚本自动安装 v2ray 本体</h4>
+<p>确实有很多种方式安装 v2ray，我这里选择使用 <code>fhs-install-v2ray</code> 项目提供的安装脚本进行安装：
+主要是它能帮我自动创建一些文件：</p>
+<pre><code>installed: /usr/local/bin/v2ray
+installed: /usr/local/bin/v2ctl
+installed: /usr/local/share/v2ray/geoip.dat
+installed: /usr/local/share/v2ray/geosite.dat
+installed: /usr/local/etc/v2ray/config.json
+installed: /var/log/v2ray/
+installed: /var/log/v2ray/access.log
+installed: /var/log/v2ray/error.log
+installed: /etc/systemd/system/v2ray.service
+installed: /etc/systemd/system/v2ray@.service
+</code></pre>
+<p>执行下面的程序脚本即可（目前时间是：2023-05-22，该脚本未来可能发生变动，以具体情况为准）
+此处贴出项目 README 文件：<a href="&#x27;https://github.com/v2fly/fhs-install-v2ray/blob/master/README.zh-Hans-CN.md&#x27;">README.zh</a></p>
+<pre><code>bash &lt;(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
+</code></pre>
+<p>执行完后，若无明显错误，即可通过 <code>systemctl start v2ray.service</code> 和 <code>systemctl status v2ray.service</code> 查看是否能正确启动。</p>
+<h4>配置 v2ray 服务端</h4>
+<p>无论是服务端亦或是客户端的配置，其实都非常简单，只需要将配置文件改动一些即可使用。
+以下是官方提供的服务端配置：</p>
+<pre><code class="language-json">{
+    &quot;inbounds&quot;: [
+        {
+            &quot;port&quot;: 10086, // 服务器监听端口
+            &quot;protocol&quot;: &quot;vmess&quot;,
+            &quot;settings&quot;: {
+                &quot;clients&quot;: [
+                    {
+                        &quot;id&quot;: &quot;xxxxxxxxxxxxxxx&quot;
+                    }
+                ]
+            }
+        }
+    ],
+    &quot;outbounds&quot;: [
+        {
+            &quot;protocol&quot;: &quot;freedom&quot;
+        }
+    ]
+}
+</code></pre>
+<p>在入门阶段，只需要了解 <code>inbounds</code> 中的 <code>port</code> 和 <code>id</code> 即可。</p>
+<ul>
+<li><code>port</code> 即是服务器的监听端口</li>
+<li><code>id</code> 可以理解为某种密钥一样的存在，在服务端与客户端交流时，需要通过这值进行辨别身份。可以使用 <code>cat /proc/sys/kernel/random/uuid</code> 指令生成这个 id。</li>
+</ul>
+<blockquote>
+<p>服务器的配置中需要确保 id 和端口与客户端一致，就可以正常连接了。</p>
+</blockquote>
+<p>最后重启一下 v2ray 服务即可：<code>systemctl restart v2ray.service</code> ，当然因为可能存在的将配置文件写错的问题，最好再查看一下有没有错误产生 <code>systemctl status v2ray.service</code></p>
+<p>没有问题后，即可开始配置 v2ray 客户端。</p>
+<p>啊，最后注意让防火墙放开对应的端口，比如这里的10086端口</p>
+<pre><code>ufw allow 10086/tcp
+</code></pre>
+<h3>配置 v2ray 客户端</h3>
+<ul>
+<li>Linux 平台可以使用 v2ray 程序(服务器所用的那个)，它即可以当服务端也可以作为客户端使用</li>
+<li>Android 平台可以使用 v2rayNG</li>
+</ul>
+<p>无论是 android 还是 windows，其都有相应的图形界面，配置起来很简单，这里主要讲一下 v2ray 如何作为客户端使用。</p>
+<p>以下贴出官方提供的客户端配置：</p>
+<pre><code class="language-json">{
+    &quot;inbounds&quot;: [
+        {
+            &quot;port&quot;: 1080, // SOCKS 代理端口，在浏览器中需配置代理并指向这个端口
+            &quot;listen&quot;: &quot;127.0.0.1&quot;,
+            &quot;protocol&quot;: &quot;socks&quot;,
+            &quot;settings&quot;: {
+                &quot;udp&quot;: true
+            }
+        }
+    ],
+    &quot;outbounds&quot;: [
+        {
+            &quot;protocol&quot;: &quot;vmess&quot;,
+            &quot;settings&quot;: {
+                &quot;vnext&quot;: [
+                    {
+                        &quot;address&quot;: &quot;server&quot;, // 服务器地址，请修改为你自己的服务器 ip 或域名
+                        &quot;port&quot;: 10086, // 服务器端口
+                        &quot;users&quot;: [
+                            {
+                                &quot;id&quot;: &quot;b831381d-6324-4d53-ad4f-8cda48b30811&quot;
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            &quot;protocol&quot;: &quot;freedom&quot;,
+            &quot;tag&quot;: &quot;direct&quot;
+        }
+    ],
+    &quot;routing&quot;: {
+        &quot;domainStrategy&quot;: &quot;IPOnDemand&quot;,
+        &quot;rules&quot;: [
+            {
+                &quot;type&quot;: &quot;field&quot;,
+                &quot;ip&quot;: [
+                    &quot;geoip:private&quot;
+                ],
+                &quot;outboundTag&quot;: &quot;direct&quot;
+            }
+        ]
+    }
+}
+</code></pre>
+<p>虽然这看起来蛮多的，但需要修改的地方也就是 <code>outbounds</code> 里的 <code>address</code>、<code>port</code> 和 <code>id</code></p>
+<ul>
+<li><code>address</code> 填入 vps 的 ip 地址亦或是域名</li>
+<li><code>port</code> 填入服务端中监听的那个地址</li>
+<li><code>id</code> 填入服务端的 id</li>
+</ul>
+<p>这样一切弄完后，在配置一下 <code>socks_proxy</code> 的环境变量即可。</p>
+<pre><code>export socks_proxy=https://127.0.0.1:1080;&quot;
+</code></pre>
+<p>当然也可以把 <code>http_proxy</code> 和 <code>https_proxy</code> 代理填入。</p>
+<p>若是你想在浏览器使用：</p>
+<ul>
+<li>firefox 相对方便，直接在设置中选择 socks5 代理，地址即填入配置文件中的：<code>127.0.0.1:1080</code></li>
+<li>chrome 可以去下载 名为 <code>SwitchyOmega</code> 的插件，也使用 sock5 配置即可</li>
+</ul>
+<h3>使用 WebSocket+TLS+Web 完成伪装</h3>
+<p>此处先给出参考的文章引用，在文章末尾也会重复给出，感谢各位前辈的教程。</p>
+<ul>
+<li><a href="&#x27;https://www.v2fly.org/guide/install.html&#x27;">V2Fly</a></li>
+<li><a href="&#x27;https://whuwangyong.vercel.app/2023-03-18-v2ray-websocket-tls-web-cloudflare-guide/&#x27;">V2Ray+WebSocket+TLS+Web+Cloudflare教程</a></li>
+<li><a href="&#x27;https://linuxfunk.com/2017/10/31/v2ray-ws-tls-nginx%E5%AE%9E%E7%8E%B0%E5%8A%A0%E5%AF%86%E4%BC%A0%E8%BE%93/&#x27;">linuxfunk</a></li>
+<li><a href="&#x27;https://cyfeng.science/2020/03/22/advanced-v2ray-with-wss/&#x27;">V2Ray进阶指南：WSS组合配置(WebSocket + TLS + Nginx + CDN)</a></li>
+</ul>
+<p>在完成了之前那些操作后，自然是可以正常使用 v2ray 的，但是非常容易被封杀(我的坚持了两天hhhhh)，这也是我后来才得知道的 :(</p>
+<p>总之，被封杀了我便意识到了伪装是极其重要的，以下先介绍一些概念名称，我刚开始接触这一部分便直接放弃了，但遗憾的是这一部分却又不得不学，GFW 太强啦，我们只能被迫去与之对抗。</p>
+<h4>TLS</h4>
+<p><code>TLS 加密</code>，TLS 中文叫 传输层安全性协议，以下是 wikipedia 的描述：</p>
+<blockquote>
+<p>将通信两方交换的资料做加密，保证两个应用间通信的保密性和可靠性，使客户与服务器应用之间的通信不被攻击者窃听</p>
+</blockquote>
+<p>这是用来加密的，广为人知的 <code>HTTP</code> 在经过 TLS 加密后，成为了<code>HTTPS</code></p>
+<p>若是 v2ray 的流量没有被 TLS 加密，那么审查者便能根据数据内容分析出，这是违“法”的数据，而且代理流量源源不断地从固定 ip 发来，这样的流量同样是不正常的。</p>
+<h4>网站前置伪装 与 websocket 协议</h4>
+<p>仅用 TLS 加密依旧是不够的，因为流量不正常，这些大规模的流量因为代理的原因来去于同一个ip，这样的流量即使是加密的，也应该是有问题的。所以，需要再完成一次伪装，使用 Nginx 与 域名 搭建一个真实的网站，我们的客户端通过 websocket（ws）协议与这个用 Nginx 作为前端的网站进行数据交流，这样一来，我们的服务器就是正儿八经的网站服务器（事实也确实如此），而非代理服务器，在找到某种特征之前，不可能大面积封杀这样的正常服务器。</p>
+<p>使用，我们现在的任务很简单，购买一个域名（可以是免费的二级域名），在我们的 VPS 中通过 Nginx 搭建一个真实但简单的网站，然后让客户端和服务器端通过ws协议交流，接着通过 Nginx 分流特定的路由。</p>
+</div>
+                <div class="tags_post"></div>
+            </div>
+        </div>
+    
+        <div class="articles">
+            <div class="post">
+                <div class="header_post">
+                    <div class="title_post"><a href="&#x2F;posts&#x2F;看完了 NeoVim 的 Tutor 文档-2023-05-20 20:37:16.html">看完了 NeoVim 的 Tutor 文档</a></div>
+                    <div class="detail_post">
+                        <div class="date">发布时间：2023-05-20 20:37:16</div>
+                        <div class="categories">
+                            归档分类：
+                            <ul>
+                                
+                                <li><a href="/categories/default">default</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content_post"><p>今天闲得没事干，于是想起了可以看看 NeoVim 提供的入门文档，是的，它是全英文的，但是里面的单词还是很简单的，颇为流畅地通读了一遍。之前只是知道一些零零散散的命令，如今感觉好多了，又学习到了很多新的知识。</p>
+</div>
+                <div class="tags_post"></div>
+            </div>
+        </div>
+    
+        <div class="articles">
+            <div class="post">
+                <div class="header_post">
+                    <div class="title_post"><a href="&#x2F;posts&#x2F;Extract tar.gz file to a directory and create the directory if not exist-2023-05-09 16:14:24.html">Extract tar.gz file to a directory and create the directory if not exist</a></div>
+                    <div class="detail_post">
+                        <div class="date">发布时间：2023-05-09 16:14:24</div>
+                        <div class="categories">
+                            归档分类：
+                            <ul>
+                                
+                                <li><a href="/categories/default">default</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content_post"><h2>Description</h2>
+<p>I can run the following command to extract the tar.gz file to 'somedir' directory, But this command requires that the directory already exists.</p>
+<pre><code class="language-bash">tar -xvf somefile.tar.gz -C somedir
+</code></pre>
+<h2>Solution</h2>
+<p>Following command can extract the somefile.tar.gz file to a directory that does not exist.</p>
+<pre><code class="language-bash">tar -xf somefile.tar.gz --one-top-level=somedir
+</code></pre>
+</div>
+                <div class="tags_post"></div>
+            </div>
+        </div>
+    
+        <div class="articles">
+            <div class="post">
+                <div class="header_post">
+                    <div class="title_post"><a href="&#x2F;posts&#x2F;决策行为的产生-2023-05-08 20:39:21.html">决策行为的产生</a></div>
+                    <div class="detail_post">
+                        <div class="date">发布时间：2023-05-08 20:39:21</div>
+                        <div class="categories">
+                            归档分类：
+                            <ul>
+                                
+                                <li><a href="/categories/default">default</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content_post"><h2>前言</h2>
+<p>一个对当下问题的最优解，有个普遍且笼统的回答：「结合过去的历史，推导分析将来的结果，作用于此刻的问题」。过去的历史即是过去的经历、将来的结果即是未来可能性的推测，用不拗口的话来说，就是用过去的历史来分析将来的结果。</p>
+<p>对未来的“猜测”，很大程度取决于过去的所存储的“历史”，“推测”自然不可能百分之一百正确，这也要求“过去的经历”不能只有正确的元素</p>
+</div>
+                <div class="tags_post"></div>
+            </div>
+        </div>
+    
+    <div class="paginator">
+    
+        <a href="&#x2F;" class="extend prev">上一页</a>
+    
+        <a href="" class="page_number current">2</a>
+          
+        <a href="&#x2F;page&#x2F;3" class="extend next">下一页</a>
+    
+
+</div>
+
+        </div>
+    </div>
+
+    
+</body>
+<footer>
+    <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
+</footer> 
+</html>

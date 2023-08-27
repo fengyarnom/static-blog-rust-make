@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%2210 0 100 100%22><text y=%22.90em%22 font-size=%2290%22>🐱</text></svg>">
+    <title>Yarnom'Blog</title>
+</head>
+<body>
+    <header>
+    <div class="nav_area">
+        <div class="logo">
+            <a href="/">Yarnom</a>
+            <div class="menu_mobile" onclick="toggleMenu()">
+                <span class="menu_icon">&#9776;</span> <!-- Unicode hamburger icon -->
+            </div>
+        </div>
+        
+        <div class="nav_bar">
+            <ul>
+                
+                <li><a href="/archive">归档</a></li>
+                <li><a href="/categories">分类</a></li>
+                <li><a href="/tags">标签</a></li>
+                <li><a href="https://memos.yarnom.top">碎碎念</a></li>
+                <li><a href="/link">友链</a></li>
+                <li><a href="/about">关于</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+<script>
+    function toggleMenu() {
+    var menu = document.querySelector('.nav_bar');
+        menu.classList.toggle('show_nav_bar');
+    }
+</script>
+    
+    <div class="main_container">
+        <div class="main_content main_area">
+            
+    
+    
+        <div class="articles">
+            <div class="post">
+                <div class="header_post">
+                    <div class="title_post"><a href="&#x2F;posts&#x2F;Debtap-2023-03-26 15:54:44.html">Debtap</a></div>
+                    <div class="detail_post">
+                        <div class="date">发布时间：2023-03-26 15:54:44</div>
+                        <div class="categories">
+                            归档分类：
+                            <ul>
+                                
+                                <li><a href="/categories/tutorial">tutorial</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content_post"><h2>Setup</h2>
+<pre><code class="language-bash">==&gt; You must run at least once &quot;debtap -u&quot;
+with root privileges (preferably recently),
+before running this script
+
+==&gt; Syntax: debtap [option] package_filename
+
+==&gt; Run &quot;debtap -h&quot; for help
+</code></pre>
+<h3>Update debtap source</h3>
+<pre><code class="language-bash">$ debtap -u
+</code></pre>
+<h3>Convert deb package</h3>
+<pre><code class="language-bash">debtap xxx.deb
+</code></pre>
+<h3>Install</h3>
+<pre><code class="language-bash">sudo pacman -U xxx.pkg
+</code></pre>
+</div>
+                <div class="tags_post"></div>
+            </div>
+        </div>
+    
+        <div class="articles">
+            <div class="post">
+                <div class="header_post">
+                    <div class="title_post"><a href="&#x2F;posts&#x2F;工程 [2023_3_25] 附录文件「一」 - Flask 起步-2023-03-26 15:21:24.html">工程 [2023_3_25] 附录文件「一」 - Flask 起步</a></div>
+                    <div class="detail_post">
+                        <div class="date">发布时间：2023-03-26 15:21:24</div>
+                        <div class="categories">
+                            归档分类：
+                            <ul>
+                                
+                                <li><a href="/categories/Proj_20230325">Proj_20230325</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content_post"><h2>前言</h2>
+<p>因为前段时间实验室老师要求我完成一个项目，是有关学校教务系统的，要求完成一个微信小程序。</p>
+<p>目前处于实验阶段，老师也没有给我需求文档，所以目前的情况就是做些东西练练手。这里记录一下，之后正式工作了能快速完成基本的构建。</p>
+<blockquote>
+<p>以下内容转载自 <a href="https://flask.palletsprojects.com/en/2.2.x/quickstart/">Flask官方文档</a></p>
+</blockquote>
+<h2>Flask Installation</h2>
+<h3>Create an environment</h3>
+<p>Create a project folder and a venv folder within:</p>
+<pre><code class="language-bash">$ mkdir myproject
+$ cd myproject
+$ python3 -m venv venv
+</code></pre>
+<h3>Activate the environment</h3>
+<p>Before you work on your project, activate the corresponding environment:</p>
+<pre><code class="language-bash">$ . venv/bin/activate
+</code></pre>
+<h3>Install Flask</h3>
+<p>Within the activated environment, use the following command to install Flask:</p>
+<pre><code class="language-bash">$ pip install Flask
+</code></pre>
+<h2>Quickstart</h2>
+<p>A minimal Flask application looks something like this:</p>
+<pre><code class="language-python">from flask import Flask
+
+app = Flask(__name__)
+
+@app.route(&quot;/&quot;)
+def hello_world():
+    return &quot;&lt;p&gt;Hello, World!&lt;/p&gt;&quot;
+</code></pre>
+<p>So what did that code do?</p>
+<ol>
+<li>
+<p>First we imported the <code>Flask</code> class. An instance of this class will be our WSGI application.</p>
+</li>
+<li>
+<p>Next we create an instance of this class. The first argument is the name of the application’s module or package. <code>__name__</code> is a convenient shortcut for this that is appropriate for most cases. This is needed so that Flask knows where to look for resources such as templates and static files.</p>
+</li>
+<li>
+<p>We then use the route() decorator to tell Flask what URL should trigger our function.</p>
+</li>
+<li>
+<p>The function returns the message we want to display in the user’s browser. The default content type is HTML, so HTML in the string will be rendered by the browser.</p>
+</li>
+</ol>
+<p>Save it as <code>hello.py</code> or something similar. Make sure to not call your application <code>flask.py</code> because this would conflict with Flask itself.</p>
+<p>To run the application, use the <code>flask</code> command or <code>python -m flask</code>. You need to tell the Flask where your application is with the <code>--app</code> option.</p>
+<pre><code class="language-python">$ flask --app hello run
+ * Serving Flask app 'hello'
+ * Running on http://127.0.0.1:5000 (Press CTRL+C to quit)
+</code></pre>
+<h3>Externally Visible Server</h3>
+<p>If you run the server you will notice that the server is only accessible from your own computer, not from any other in the network. This is the default because in debugging mode a user of the application can execute arbitrary Python code on your computer.</p>
+<p>If you have the debugger disabled or trust the users on your network, you can make the server publicly available simply by adding <code>--host=0.0.0.0</code> to the command line:</p>
+<pre><code class="language-python">$ flask run --host=0.0.0.0
+</code></pre>
+<p>This tells your operating system to listen on all public IPs.</p>
+<h3>Debug</h3>
+<p>To enable debug mode, use the --debug option.</p>
+<pre><code class="language-python">$ flask --app hello run --debug
+ * Serving Flask app 'hello'
+ * Debug mode: on
+ * Running on http://127.0.0.1:5000 (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: nnn-nnn-nnn
+</code></pre>
+<h3>Routing</h3>
+<p>Modern web applications use meaningful URLs to help users. Users are more likely to like a page and come back if the page uses a meaningful URL they can remember and use to directly visit a page.</p>
+<p>Use the <code>route()</code> decorator to bind a function to a URL.</p>
+<pre><code class="language-python">@app.route('/')
+def index():
+    return 'Index Page'
+
+@app.route('/hello')
+def hello():
+    return 'Hello, World'
+</code></pre>
+<h3>HTTP Methods</h3>
+<p>Web applications use different HTTP methods when accessing URLs. You should familiarize yourself with the HTTP methods as you work with Flask. By default, a route only answers to <code>GET</code> requests. You can use the <code>methods</code> argument of the route() decorator to handle different HTTP methods.</p>
+<pre><code class="language-python">from flask import request
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        return do_the_login()
+    else:
+        return show_the_login_form()
+</code></pre>
+<h3>The Request Object</h3>
+<p>The request object is documented in the API section and we will not cover it here in detail (see Request). Here is a broad overview of some of the most common operations. First of all you have to import it from the <code>flask</code> module:</p>
+<pre><code class="language-python">from flask import request
+</code></pre>
+<p>The current request method is available by using the method attribute. To access form data (data transmitted in a <code>POST</code> or <code>PUT</code> request) you can use the form attribute. Here is a full example of the two attributes mentioned above:</p>
+<pre><code class="language-python">@app.route('/login', methods=['POST', 'GET'])
+def login():
+    error = None
+    if request.method == 'POST':
+        if valid_login(request.form['username'],
+                       request.form['password']):
+            return log_the_user_in(request.form['username'])
+        else:
+            error = 'Invalid username/password'
+    # the code below is executed if the request method
+    # was GET or the credentials were invalid
+    return render_template('login.html', error=error)
+</code></pre>
+</div>
+                <div class="tags_post"></div>
+            </div>
+        </div>
+    
+        <div class="articles">
+            <div class="post">
+                <div class="header_post">
+                    <div class="title_post"><a href="&#x2F;posts&#x2F;隐函数 + 二阶导 = 💩-2023-03-20 19:37:49.html">隐函数 + 二阶导 = 💩</a></div>
+                    <div class="detail_post">
+                        <div class="date">发布时间：2023-03-20 19:37:49</div>
+                        <div class="categories">
+                            归档分类：
+                            <ul>
+                                
+                                <li><a href="/categories/吐槽">吐槽</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content_post"><p>我宣布，我郑重宣布！！！</p>
+<p>计算隐函数的二阶导数，是比💩💩💩还恶心的东西。</p>
+<p>计算过程又臭又长。</p>
+<h3>事情的经过</h3>
+<p>事情的经过是这样的，我今天遇到了一道题：
+$$\left\{\begin{aligned}x&amp;=3t^2+2t+3\\e^y&amp;sint-y+1=0\end{aligned}\right.$$</p>
+<p>要求计算 $ \frac{\mathrm{d^2} y}{\mathrm{d} x^2} $ 在 $ t=0 $ 的值</p>
+<p>当我看到 $ e^ysint-y+1=0 $ 的时候就深感不妙，果不其然，在导的过程中，无数次想死 qvq。</p>
+</div>
+                <div class="tags_post"></div>
+            </div>
+        </div>
+    
+        <div class="articles">
+            <div class="post">
+                <div class="header_post">
+                    <div class="title_post"><a href="&#x2F;posts&#x2F;存储扩展-2023-03-04 13:18:01.html">存储扩展</a></div>
+                    <div class="detail_post">
+                        <div class="date">发布时间：2023-03-04 13:18:01</div>
+                        <div class="categories">
+                            归档分类：
+                            <ul>
+                                
+                                <li><a href="/categories/default">default</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content_post"><p>在使用了两年的双系统后，逐渐感觉到了512G是远远不够的，但暂时没有更换硬盘的资金，所以，我计划分别购入256G和128G的SD卡作为系统的扩展。</p>
+<h3>速度测试</h3>
+<p>由于不是 SSD 硬盘，而且 SD 卡被设计出来主要就是静态的存储，没有类似主控的东西，所以无论是速度还是质量都是难堪大任的，但由于我平时并不怎么使用 windows ， 所以尚能接受。</p>
+<p>但为了保险起见，我将使用一张 64G 的 tf 卡测试其最小性能。</p>
+<p>64G 的 tf 卡满足整体的使用，所以我购买了一张 128G 的 SD 卡作为虚拟机的硬盘，显然在速度方面它的能够满足我的使用的，那么自要做好备份工作就没问题了。</p>
+<h3>闪迪 256G 固态U盘</h3>
+<p>事实上在这个容量上，买一盘固态硬盘更好，同样的价格可以来到500G的容量，而且安全性肯定也是更高的，但是考虑到U盘的体积，所以，我更偏爱于这个U盘。</p>
+<p>对于这个U盘，我可能有以下打算：</p>
+<p>1.仍然保留双系统，这个固态U盘作为虚拟机硬盘使用。这个打算主要是考虑到SD卡的使用寿命并不安全，很可能在我工作时崩坏，这会导致严重的后果。而这个U盘显然更加的安全一些。</p>
+<p>2.不再保留双系统，Linux 系统将独占整个512G的硬盘，同时分离128G出来给Windows虚拟机，之前购买的128G的SD卡作为资料存储卡，256G的固态U盘将安装为 Windows 系统。</p>
+<p>我更喜欢第二种方案，因为它更安全可靠。</p>
+</div>
+                <div class="tags_post"></div>
+            </div>
+        </div>
+    
+        <div class="articles">
+            <div class="post">
+                <div class="header_post">
+                    <div class="title_post"><a href="&#x2F;posts&#x2F;大三下学期-2023-02-24 23:25:19.html">大三下学期</a></div>
+                    <div class="detail_post">
+                        <div class="date">发布时间：2023-02-24 23:25:19</div>
+                        <div class="categories">
+                            归档分类：
+                            <ul>
+                                
+                                <li><a href="/categories/随笔">随笔</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content_post"><p>时间真的过得很快，大一时会在校园迷路的我如今也在面临考研或者直接工作的两个方向，如今的倾向是考研，因为随着 Google 、字节 这些大厂的裁员情况来看，互联网行业并不景气，加之 AI 的高速发展，低技术人员被快速淘汰，可能，提升自己的学历会是一个更好的选择。</p>
+<p>我的选择是广西大学，这是一个计算机 B- 的学校，综合下来是很适合我的情况的。</p>
+</div>
+                <div class="tags_post"></div>
+            </div>
+        </div>
+    
+    <div class="paginator">
+    
+        <a href="&#x2F;page&#x2F;3" class="extend prev">上一页</a>
+    
+        <a href="" class="page_number current">4</a>
+          
+        <a href="&#x2F;page&#x2F;5" class="extend next">下一页</a>
+    
+
+</div>
+
+        </div>
+    </div>
+
+    
+</body>
+<footer>
+    <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
+</footer> 
+</html>

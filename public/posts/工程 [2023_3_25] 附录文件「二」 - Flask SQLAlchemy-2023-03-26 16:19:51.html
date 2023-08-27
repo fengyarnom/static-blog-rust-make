@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%2210 0 100 100%22><text y=%22.90em%22 font-size=%2290%22>🐱</text></svg>">
+    <title>Yarnom'Blog</title>
+</head>
+<body>
+    <header>
+    <div class="nav_area">
+        <div class="logo">
+            <a href="/">Yarnom</a>
+            <div class="menu_mobile" onclick="toggleMenu()">
+                <span class="menu_icon">&#9776;</span> <!-- Unicode hamburger icon -->
+            </div>
+        </div>
+        
+        <div class="nav_bar">
+            <ul>
+                
+                <li><a href="/archive">归档</a></li>
+                <li><a href="/categories">分类</a></li>
+                <li><a href="/tags">标签</a></li>
+                <li><a href="https://memos.yarnom.top">碎碎念</a></li>
+                <li><a href="/link">友链</a></li>
+                <li><a href="/about">关于</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+<script>
+    function toggleMenu() {
+    var menu = document.querySelector('.nav_bar');
+        menu.classList.toggle('show_nav_bar');
+    }
+</script>
+    
+    <div class="main_container">
+        <div class="main_content main_area">
+            
+
+<div class="post_area">
+    <div class="post">
+        <div class="header_post">
+            <div class="title_post"><a href="">工程 [2023_3_25] 附录文件「二」 - Flask SQLAlchemy</a></div>
+            <div class="detail_post">
+                <div class="date">发布时间：2023-03-26</div>
+                <div class="categories">
+                    归档分类：
+                    <ul>
+                        
+                        <li><a href="/categories/Proj_20230325">Proj_20230325</a></li>
+                        
+                    </ul>
+                </div>
+                <div class="tags_post">
+                    标签：
+                    <ul>
+                        
+                        <li><a href="/tags/开发记录">开发记录</a></li>
+                        
+                        <li><a href="/tags/Flask">Flask</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="content_post"><h2>前言</h2>
+<p>本文主要介绍 Flask SQLAlchemy 的具体使用。</p>
+<p>如需要了解 Flask 入门文档可跳转：</p>
+<ul>
+<li><a href="/2023/03/26/%E5%B7%A5%E7%A8%8B-2023-3-25-%E9%99%84%E5%BD%95%E6%96%87%E4%BB%B6%E3%80%8C%E4%B8%80%E3%80%8D-Flask-%E8%B5%B7%E6%AD%A5/"> 附录文件「一」 </a></li>
+<li><a href="https://flask.palletsprojects.com/en/2.2.x/quickstart/"> Flask官方文档 </a></li>
+<li><a href="https://flask-sqlalchemy.palletsprojects.com/en/2.x/queries/"> Flask-Sqlalchemy 官方文档</a></li>
+</ul>
+<h2>Setup</h2>
+<h3>Install MySQL/MariaDB</h3>
+<h4>1. Installation</h4>
+<p>MariaDB is the default implementation of MySQL in Arch Linux, provided with the mariadb package.</p>
+<p><strong>Install mariadb</strong>, and run the following command <strong>before starting</strong> the <code>mariadb.service</code></p>
+<pre><code class="language-bash"># mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+</code></pre>
+<h4>2. Configuration</h4>
+<p>Once you have started the MariaDB server and added a root account, you may want to change the default configuration.</p>
+<p>To log in as root on the MariaDB server, use the following command:</p>
+<pre><code class="language-bash"># mariadb -u root -p
+</code></pre>
+<h5>2.1 Add user</h5>
+<p>Creating a new user takes two steps: <code>create the user</code>; <code>grant privileges</code>. In the below example, the user monty with some_pass as password is being created, then granted full permissions to the database mydb:</p>
+<pre><code class="language-bash"># mariadb -u root -p
+</code></pre>
+<pre><code class="language-mysql">MariaDB&gt; CREATE USER 'monty'@'localhost' IDENTIFIED BY 'some_pass';
+MariaDB&gt; GRANT ALL PRIVILEGES ON mydb.* TO 'monty'@'localhost';
+MariaDB&gt; quit
+</code></pre>
+<h3>安装 PyMySQL 和 Flask-SQLAlchemy</h3>
+<p>使用python 提供 <code>pip</code> 包管理器安装 <code>pymysql</code> 和 <code>Flask-SQLAlchemy</code></p>
+<pre><code class="language-bash">$ pip install PyMySQL
+$ pip install flask-sqlalchemy
+</code></pre>
+<h4>Connection URI Format</h4>
+<p>For a complete list of connection URIs head over to the SQLAlchemy documentation under (Supported Databases). This here shows some common connection strings.</p>
+<p>SQLAlchemy indicates the source of an Engine as a URI combined with optional keyword arguments to specify options for the Engine. The form of the URI is:</p>
+<pre><code class="language-python">dialect+driver://username:password@host:port/database
+</code></pre>
+<p>MySQL:</p>
+<pre><code class="language-python">mysql://scott:tiger@localhost/mydatabase
+</code></pre>
+<h3>Configuration Keys</h3>
+<p><strong>SQLALCHEMY_DATABASE_URI</strong></p>
+<p>The database URI that should be used for the connection. Examples:</p>
+<ul>
+<li>sqlite:////tmp/test.db</li>
+<li>mysql://username:password@server/db</li>
+</ul>
+<h3>创建数据库</h3>
+<p>安装完上边的套件后，就可以正式创建Mysql数据库了。</p>
+<h4>使用root用户创建数据库</h4>
+<pre><code class="language-bash">sudo mariadb -u root -p
+</code></pre>
+<p>进入mariadb后，使用如下命令创建数据库：</p>
+<pre><code class="language-sql">MariaDB [(none)]&gt; create database proj_20230325;
+Query OK, 1 row affected (0.000 sec)
+</code></pre>
+<h4>给予权限</h4>
+<p>之后给予用户 Yarnom 该数据库的所有权限：</p>
+<pre><code class="language-sql">MariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON proj_20230325.* TO 'yarnom'@'localhost';
+Query OK, 0 rows affected (0.009 sec)
+</code></pre>
+<h3>安装 FLask-Migrate</h3>
+<pre><code class="language-bash">$ pip install Flask-Migrate
+</code></pre>
+<h4>配置</h4>
+<pre><code class="language-python">from flask_migrate import Migrate
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = &quot;mysql+pymysql://yarnom:root@localhost:3306/proj_20230325&quot;
+db = SQLAlchemy(app)
+Migrate(app,db)
+</code></pre>
+<h4>初始化</h4>
+<pre><code class="language-bash">$ flask db init
+</code></pre>
+<h3>Flask 使用Mysql数据库</h3>
+<p>创建出相应的模板：</p>
+<pre><code class="language-python">class Student(db.Model):
+    id = db.Column('id', db.String(100),primary_key=True)
+    name = db.Column('name',db.String(100))
+    def __init__(self, id, name):
+        self.id =id
+        self.name = name
+</code></pre>
+<p>使用如下命令更新数据库</p>
+<pre><code class="language-bash">$ flask db migrate -m &quot;說明文字&quot;
+$ flask db upgrade
+</code></pre>
+<h3>Flask-Sqlalchemy 使用</h3>
+<blockquote>
+<p>以下内容转载自<a href="https://flask-sqlalchemy.palletsprojects.com/en/2.x/queries/">flask-sqlalchemy 官方文档</a></p>
+</blockquote>
+<h4>Flask 添加数据</h4>
+<pre><code class="language-python">me = User('admin', 'admin@example.com')
+db.session.add(me)
+db.session.commit()
+</code></pre>
+<h4>Flask 查询数据</h4>
+<p>So how do we get data back out of our database? For this purpose Flask-SQLAlchemy provides a query attribute on your Model class. When you access it you will get back a new query object over all records. You can then use methods like filter() to filter the records before you fire the select with all() or first(). If you want to go by primary key you can also use get().</p>
+<p>The following queries assume following entries in the database:
+|id|username|email|
+|---|---|---|
+|1|admin|admin@example.com|
+|2|peter|peter@example.org|
+|3|guest|guest@example.com|</p>
+<p>Retrieve a user by username:</p>
+<pre><code class="language-bash">&gt;&gt;&gt; peter = User.query.filter_by(username='peter').first()
+&gt;&gt;&gt; peter.id
+2
+&gt;&gt;&gt; peter.email
+u'peter@example.org'
+</code></pre>
+<p>Same as above but for a non existing username gives None:</p>
+<pre><code class="language-bash">&gt;&gt;&gt; missing = User.query.filter_by(username='missing').first()
+&gt;&gt;&gt; missing is None
+True
+</code></pre>
+<p>Selecting a bunch of users by a more complex expression:</p>
+<pre><code class="language-bash">&gt;&gt;&gt; User.query.filter(User.email.endswith('@example.com')).all()
+[&lt;User u'admin'&gt;, &lt;User u'guest'&gt;]
+</code></pre>
+<p>Ordering users by something:</p>
+<pre><code class="language-bash">&gt;&gt;&gt; User.query.order_by(User.username).all()
+[&lt;User u'admin'&gt;, &lt;User u'guest'&gt;, &lt;User u'peter'&gt;]
+</code></pre>
+<p>Limiting users:</p>
+<pre><code class="language-bash">&gt;&gt;&gt; User.query.limit(1).all()
+[&lt;User u'admin'&gt;]
+</code></pre>
+<p>Getting user by primary key:</p>
+<pre><code class="language-bash">&gt;&gt;&gt; User.query.get(1)
+&lt;User u'admin'&gt;
+</code></pre>
+</div>
+    </div>
+</div>
+
+        </div>
+    </div>
+
+    
+</body>
+<footer>
+    <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
+</footer> 
+</html>
