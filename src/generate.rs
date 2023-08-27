@@ -273,6 +273,7 @@ impl SiteGenerator {
             if current == 1{
                 output = format!("{}/index.html", output_path);
             }else{
+                fs::create_dir_all(format!("{}/page",output_path));
                 let output_folder = format!("{}/page/{}",output_path,current);
                 fs::create_dir_all(&output_folder).unwrap();
                 output = format!("{}/index.html", &output_folder);
