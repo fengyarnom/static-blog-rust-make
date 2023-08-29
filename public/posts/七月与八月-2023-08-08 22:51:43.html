@@ -71,24 +71,16 @@
 <p>事实上，一开始为真的无从下手，于是我开始询问 ChatGPT，这真是一个很棒的人工智能，它认真地回答了我很多的问题，给予了我很多实际地代码。我用了一天时间了解了 rust 的语法，囫囵吞枣地学习显然不足以支撑我完成这个项目，但是有了 ChatGPT 的帮助，事情真的变得容易了很多，之后完成了这个项目，我会写一篇更详细的文章来介绍这一过程。</p>
 </div>
     </div>
+    <div id="remark42"></div>
 </div>
-<!-- CSS -->
-<link href="https://artalk.yarnom.top/dist/Artalk.css" rel="stylesheet">
-
-<!-- JS -->
-<script src="https://artalk.yarnom.top/dist/Artalk.js"></script>
-
-<!-- Artalk -->
-<div id="Comments"></div>
 <script>
-Artalk.init({
-  el:        '#Comments',                // 绑定元素的 Selector
-  pageKey:   '',                  // 固定链接 (留空自动获取)
-  pageTitle: '',  // 页面标题 (留空自动获取)
-  server:    'https://artalk.yarnom.top',  // 后端地址
-  site:      'Yarnom Blog',             // 你的站点名
-})
-</script>
+    var remark_config = {
+      host: 'https://artalk.yarnom.top',
+      site_id: 'yarnom',
+      components: ['embed']
+    }
+  </script>
+  <script>!function(e,n){for(var o=0;o<e.length;o++){var r=n.createElement("script"),c=".js",d=n.head||n.body;"noModule"in r?(r.type="module",c=".mjs"):r.async=!0,r.defer=!0,r.src=remark_config.host+"/web/"+e[o]+c,d.appendChild(r)}}(remark_config.components||["embed"],document);</script>
 
         </div>
     </div>

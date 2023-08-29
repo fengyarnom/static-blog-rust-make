@@ -71,24 +71,16 @@
 <p>但是这是我出生的地方，我爱这片土地，我爱我的家人朋友，每个国家都有着这样或那样的矛盾，我们的国家也不例外，它终究不是儿时课本所描述的那个完美的国家、政府，他们或许已经是最适合的选择了。</p>
 </div>
     </div>
+    <div id="remark42"></div>
 </div>
-<!-- CSS -->
-<link href="https://artalk.yarnom.top/dist/Artalk.css" rel="stylesheet">
-
-<!-- JS -->
-<script src="https://artalk.yarnom.top/dist/Artalk.js"></script>
-
-<!-- Artalk -->
-<div id="Comments"></div>
 <script>
-Artalk.init({
-  el:        '#Comments',                // 绑定元素的 Selector
-  pageKey:   '',                  // 固定链接 (留空自动获取)
-  pageTitle: '',  // 页面标题 (留空自动获取)
-  server:    'https://artalk.yarnom.top',  // 后端地址
-  site:      'Yarnom Blog',             // 你的站点名
-})
-</script>
+    var remark_config = {
+      host: 'https://artalk.yarnom.top',
+      site_id: 'yarnom',
+      components: ['embed']
+    }
+  </script>
+  <script>!function(e,n){for(var o=0;o<e.length;o++){var r=n.createElement("script"),c=".js",d=n.head||n.body;"noModule"in r?(r.type="module",c=".mjs"):r.async=!0,r.defer=!0,r.src=remark_config.host+"/web/"+e[o]+c,d.appendChild(r)}}(remark_config.components||["embed"],document);</script>
 
         </div>
     </div>

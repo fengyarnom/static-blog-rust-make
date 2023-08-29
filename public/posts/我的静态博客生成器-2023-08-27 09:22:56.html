@@ -74,24 +74,16 @@
 <p>最后，这是一个非常不完美的项目，里面的代码混乱不堪，复杂的逻辑结构几乎把我压倒。在多次重构和清理冗杂代码后，确实完成了我一开始定下的所有功能需求，但是这样的代码总归让人看了倒胃口，但也只能在之后的日子里慢慢修改完善啦，至少它没有夭折在漫长的开发期中。我确实是以最快的速度开发的，为的就是减少枯燥，目前看来确实如此，我在耐心消耗殆尽前完成了这个项目。</p>
 </div>
     </div>
+    <div id="remark42"></div>
 </div>
-<!-- CSS -->
-<link href="https://artalk.yarnom.top/dist/Artalk.css" rel="stylesheet">
-
-<!-- JS -->
-<script src="https://artalk.yarnom.top/dist/Artalk.js"></script>
-
-<!-- Artalk -->
-<div id="Comments"></div>
 <script>
-Artalk.init({
-  el:        '#Comments',                // 绑定元素的 Selector
-  pageKey:   '',                  // 固定链接 (留空自动获取)
-  pageTitle: '',  // 页面标题 (留空自动获取)
-  server:    'https://artalk.yarnom.top',  // 后端地址
-  site:      'Yarnom Blog',             // 你的站点名
-})
-</script>
+    var remark_config = {
+      host: 'https://artalk.yarnom.top',
+      site_id: 'yarnom',
+      components: ['embed']
+    }
+  </script>
+  <script>!function(e,n){for(var o=0;o<e.length;o++){var r=n.createElement("script"),c=".js",d=n.head||n.body;"noModule"in r?(r.type="module",c=".mjs"):r.async=!0,r.defer=!0,r.src=remark_config.host+"/web/"+e[o]+c,d.appendChild(r)}}(remark_config.components||["embed"],document);</script>
 
         </div>
     </div>

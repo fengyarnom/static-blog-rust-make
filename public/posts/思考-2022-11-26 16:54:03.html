@@ -74,24 +74,16 @@
 <p>昨晚，上海 乌鲁木齐路爆发了吊唁活动，与之而来的是新的大聚集事件，请永远小心。最近能看到新闻媒体也在尝试发出更多声音，这种禁锢已经套在他们身上太久了，那样的事件落在自己、家人、朋友身上，都将是一场重大的灾难。</p>
 </div>
     </div>
+    <div id="remark42"></div>
 </div>
-<!-- CSS -->
-<link href="https://artalk.yarnom.top/dist/Artalk.css" rel="stylesheet">
-
-<!-- JS -->
-<script src="https://artalk.yarnom.top/dist/Artalk.js"></script>
-
-<!-- Artalk -->
-<div id="Comments"></div>
 <script>
-Artalk.init({
-  el:        '#Comments',                // 绑定元素的 Selector
-  pageKey:   '',                  // 固定链接 (留空自动获取)
-  pageTitle: '',  // 页面标题 (留空自动获取)
-  server:    'https://artalk.yarnom.top',  // 后端地址
-  site:      'Yarnom Blog',             // 你的站点名
-})
-</script>
+    var remark_config = {
+      host: 'https://artalk.yarnom.top',
+      site_id: 'yarnom',
+      components: ['embed']
+    }
+  </script>
+  <script>!function(e,n){for(var o=0;o<e.length;o++){var r=n.createElement("script"),c=".js",d=n.head||n.body;"noModule"in r?(r.type="module",c=".mjs"):r.async=!0,r.defer=!0,r.src=remark_config.host+"/web/"+e[o]+c,d.appendChild(r)}}(remark_config.components||["embed"],document);</script>
 
         </div>
     </div>

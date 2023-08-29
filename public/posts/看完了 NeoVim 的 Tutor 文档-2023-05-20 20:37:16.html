@@ -69,24 +69,16 @@
         <div class="content_post"><p>今天闲得没事干，于是想起了可以看看 NeoVim 提供的入门文档，是的，它是全英文的，但是里面的单词还是很简单的，颇为流畅地通读了一遍。之前只是知道一些零零散散的命令，如今感觉好多了，又学习到了很多新的知识。</p>
 </div>
     </div>
+    <div id="remark42"></div>
 </div>
-<!-- CSS -->
-<link href="https://artalk.yarnom.top/dist/Artalk.css" rel="stylesheet">
-
-<!-- JS -->
-<script src="https://artalk.yarnom.top/dist/Artalk.js"></script>
-
-<!-- Artalk -->
-<div id="Comments"></div>
 <script>
-Artalk.init({
-  el:        '#Comments',                // 绑定元素的 Selector
-  pageKey:   '',                  // 固定链接 (留空自动获取)
-  pageTitle: '',  // 页面标题 (留空自动获取)
-  server:    'https://artalk.yarnom.top',  // 后端地址
-  site:      'Yarnom Blog',             // 你的站点名
-})
-</script>
+    var remark_config = {
+      host: 'https://artalk.yarnom.top',
+      site_id: 'yarnom',
+      components: ['embed']
+    }
+  </script>
+  <script>!function(e,n){for(var o=0;o<e.length;o++){var r=n.createElement("script"),c=".js",d=n.head||n.body;"noModule"in r?(r.type="module",c=".mjs"):r.async=!0,r.defer=!0,r.src=remark_config.host+"/web/"+e[o]+c,d.appendChild(r)}}(remark_config.components||["embed"],document);</script>
 
         </div>
     </div>
