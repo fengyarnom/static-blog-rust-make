@@ -45,6 +45,121 @@
         <div class="articles">
             <div class="post">
                 <div class="header_post">
+                    <div class="title_post"><a href="&#x2F;posts&#x2F;决策行为的产生-2023-05-08 20:39:21.html">决策行为的产生</a></div>
+                    <div class="detail_post">
+                        <div class="date">发布时间：2023-05-08 20:39:21</div>
+                        <div class="categories">
+                            归档分类：
+                            <ul>
+                                
+                                <li><a href="/categories/default">default</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content_post"><h2>前言</h2>
+<p>一个对当下问题的最优解，有个普遍且笼统的回答：「结合过去的历史，推导分析将来的结果，作用于此刻的问题」。过去的历史即是过去的经历、将来的结果即是未来可能性的推测，用不拗口的话来说，就是用过去的历史来分析将来的结果。</p>
+<p>对未来的“猜测”，很大程度取决于过去的所存储的“历史”，“推测”自然不可能百分之一百正确，这也要求“过去的经历”不能只有正确的元素</p>
+</div>
+                <div class="tags_post"></div>
+            </div>
+        </div>
+    
+        <div class="articles">
+            <div class="post">
+                <div class="header_post">
+                    <div class="title_post"><a href="&#x2F;posts&#x2F;dwm 和 st 的安装及补丁-2023-05-05 15:59:30.html">dwm 和 st 的安装及补丁</a></div>
+                    <div class="detail_post">
+                        <div class="date">发布时间：2023-05-05 15:59:30</div>
+                        <div class="categories">
+                            归档分类：
+                            <ul>
+                                
+                                <li><a href="/categories/default">default</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content_post"><h2>前言</h2>
+<p>得益于近些日子在学校深入学习了很多关于 Linux 的知识，加之之前也多次重装过 Arch ，这些因素综合起来后，这一次的系统安装可以说颇为顺畅，之前因无法理解的地方而导致难以下手的操作，所赖知识见长，逐渐克服且熟练了起来。</p>
+<p>本次为了更加深入地去学习 Linux ，所以放弃了像 Gnome 这样简单易用的桌面环境, 而是使用像 DWM 这样更简单的窗口管理器，虽然是自找麻烦，但我也乐在其中，我会在本文中简略地记录下折腾的过程。</p>
+<h2>DWM 和 st 的安装</h2>
+<p>事实上安装 DWM 非常的简单，自需要从 suckless 官网下载源码文件即可。</p>
+<pre><code class="language-bash">
+$ git clone git://git.suckless.org/dwm
+$ cd dwm
+$ make
+# sudo make install
+
+</code></pre>
+<p>编译安装后，我这里是通过 xrog 的 <code>.xinitrc</code> 从 tty 终端使用 <code>startx</code> 命令启动的：</p>
+<pre><code class="language-bash">exec dwm
+</code></pre>
+<p>启动之后的第一眼就是简陋，目前还什么都干不了，因为我甚至还没安装终端，suckless 也提供了一个 xrog 下的终端实现，叫 <code>st</code> 。
+通过魔法键回到 tty （ps.当然也可以通过快捷键：<code>Alt</code>  <code>+</code> <code>Shift</code> <code>+</code> <code>Q</code> 退出 dwm )，通过 tty 的终端去下载 st 源码。</p>
+<p>同样也是通过源码安装：</p>
+<pre><code class="language-bash">$ git clone https://git.suckless.org/st
+$ cd st
+$ make
+# sudo make install
+</code></pre>
+<p>编译安装完后，在dwm便应该通过<code>Alt</code> <code>+</code> <code>Shift</code> <code>+</code> <code>Enter</code> 组合键启动 <code>st</code> 管终端。但是毫无疑问，也是十分简陋，甚至字体小到无法看清……</p>
+<p>不过问题不大，我学过 C ，源码文件是能看懂的，首先就是修改了字体大小，顺带一提我还通过 pacman 包管理下载了 [ttf-fira-code] 字体。</p>
+<p>首先来修改一下 dwm 的字体和其大小：</p>
+<pre><code class="language-c"># dwm &gt; config.h
+
+static const char *fonts[]          = { &quot;Fira Code:size=14&quot; };
+static const char dmenufont[]       = &quot;Fira Code:size=14&quot;;
+
+</code></pre>
+<p>保存后通过 <code>sudo make clean install</code> 命令安装即可</p>
+<p>接着修改 st 终端的字体和大小：</p>
+<pre><code class="language-c"># st &gt; config.h
+
+static char *font = &quot;Fira Code:style=Bold:pixelsize=23:antialias=true:autohint=true&quot;;
+</code></pre>
+<p>保存后通过 <code>sudo make clean install</code> 命令安装即可</p>
+<p>这样修改完后，便好看很多了。</p>
+<h2>安装 dmenu</h2>
+<p>这个就是 suckless 的程序托盘？
+总之，安装后，可以快速打开程序，也是蛮好的，这个就没有使用源码安装了，不过听说它也有很多好玩之处，之后再研究吧，总之 dmenu 通过包管理器安装：</p>
+<pre><code class="language-bash">$ sudo pacman -S dmenu
+</code></pre>
+<h2>给 dwm 打补丁</h2>
+<p>Dwm 目前其实足够我使用了， 这里就打一个透明补丁: 「 <a href="https://dwm.suckless.org/patches/alpha/dwm-alpha-20201019-61bb8b2.diff">alpha.diff</a>  」</p>
+<pre><code class="language-bash">$ wget https://dwm.suckless.org/patches/alpha/dwm-alpha-20201019-61bb8b2.diff
+$ patch p1 &lt; dwm-alpha-20201019-61bb8b2.diff
+
+</code></pre>
+<p>通过 <code>patch</code> 命令 把补丁打进去即可，之前我都没怎么用过这个 patch 命令，用多了其实也还好，出现错误了，手动去修改源文件即可。</p>
+<h2>给 st 打补丁</h2>
+<p>这里打了好几个补丁：</p>
+<ul>
+<li>「 <a href="https://st.suckless.org/patches/alpha/st-alpha-20220206-0.8.5.diff">st-alpha-20220206-0.8.5.diff</a>  」 这是改变st透明度的补丁。</li>
+<li>「 <a href="https://st.suckless.org/patches/scrollback/st-scrollback-20210507-4536f46.diff">st-scrollback-20210507-4536f46.diff</a> 」这是让 st 终端支持回滚（按键支持）</li>
+<li>「 <a href="https://st.suckless.org/patches/scrollback/st-scrollback-mouse-20220127-2c5edf2.diff">st-scrollback-mouse-20220127-2c5edf2.diff</a> 」这是回滚的鼠标滚轮支持(ps.需要先安装scrollback 补丁)</li>
+</ul>
+<p>也是一样地通过 <code>patch</code> 命令打进去，这里就不再赘述了。</p>
+<h2>安装 picom</h2>
+<p>这是一个合成管理器，可以给窗口管理器带来需要效果，比如透明、阴影，上面的透明补丁也需要它的安装才能真正起作用。</p>
+<pre><code class="language-bash">$ sudo pacman -S picom
+</code></pre>
+<p>安装完后，编辑 <code>~/.xinitrc</code> 文件,进程让它以 Daemon（后台） 的形式运行。</p>
+<pre><code class="language-bash">compton -b
+</code></pre>
+<p>（未完待续）</p>
+</div>
+                <div class="tags_post"></div>
+            </div>
+        </div>
+    
+        <div class="articles">
+            <div class="post">
+                <div class="header_post">
                     <div class="title_post"><a href="&#x2F;posts&#x2F;重新安装 Archlinux-2023-05-03 11:22:11.html">重新安装 Archlinux</a></div>
                     <div class="detail_post">
                         <div class="date">发布时间：2023-05-03 11:22:11</div>
@@ -129,62 +244,6 @@ mount: mounting 192.168.1.5:/home/yarnom/nfs on /mnt failed: Connection timed ou
 <pre><code class="language-bash">$ mount -t nfs -o nolock,proto=tcp,port=2049 192.168.1.5:/home/yarnom/nfs /mnt
 </code></pre>
 <p>这个协议最终使我正确连接上了nfs服务器。</p>
-</div>
-                <div class="tags_post"></div>
-            </div>
-        </div>
-    
-        <div class="articles">
-            <div class="post">
-                <div class="header_post">
-                    <div class="title_post"><a href="&#x2F;posts&#x2F;2023-03-31 英语翻译练习-2023-03-31 13:20:27.html">2023-03-31 英语翻译练习</a></div>
-                    <div class="detail_post">
-                        <div class="date">发布时间：2023-03-31 13:20:27</div>
-                        <div class="categories">
-                            归档分类：
-                            <ul>
-                                
-                                <li><a href="/categories/default">default</a></li>
-                                
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="content_post"><p>Studying for a graduate exam can be challenging, but with the right mindset and study strategies, it can be manageable. It's important to prioritize your time, focusing on your weak areas while also reviewing what you already know. Practice exams can be helpful in identifying areas for improvement and getting a sense of the exam format. Additionally, developing good study habits, such as taking breaks and getting enough sleep, can increase your overall productivity and retention of material. Remember to stay motivated and keep a positive attitude, as this will help you stay focused and achieve your goals.</p>
-<p>备考研究生考试可能是具有挑战性的，但是只要拥有正确的心态和学习策略，就可以应对。重要的是要优先考虑时间，专注于自己的薄弱领域，同时复习已经掌握的知识。模拟考试可以帮助您确定需要改进的方面，并了解考试的格式。此外，养成良好的学习习惯，如休息和充足的睡眠，可以提高您的总体生产力和记忆材料的能力。记住要保持动力和积极的态度，因为这将帮助您保持专注，实现自己的目标。</p>
-<p>prioritize - 优先考虑
-weak areas - 薄弱领域
-retention - 记忆
-productivity - 生产力/工作效率
-positive attitude - 积极态度</p>
-</div>
-                <div class="tags_post"></div>
-            </div>
-        </div>
-    
-        <div class="articles">
-            <div class="post">
-                <div class="header_post">
-                    <div class="title_post"><a href="&#x2F;posts&#x2F;对未来的一些思考-2023-03-28 14:43:31.html">对未来的一些思考</a></div>
-                    <div class="detail_post">
-                        <div class="date">发布时间：2023-03-28 14:43:31</div>
-                        <div class="categories">
-                            归档分类：
-                            <ul>
-                                
-                                <li><a href="/categories/札记">札记</a></li>
-                                
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="content_post"><p>这段时间我在写积分题，写到后面的难题感觉特别的痛苦，我自然是不应该放弃的，我应该坚持下去。</p>
-<p>虽然如此劝慰自己，但在行动上还是逃避，退后。</p>
-<p>自闭。</p>
-<p>走了出来，为了什么？</p>
-<p>不去逃避就是最大的勇气。</p>
 </div>
                 <div class="tags_post"></div>
             </div>

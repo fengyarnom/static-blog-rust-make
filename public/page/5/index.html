@@ -45,6 +45,74 @@
         <div class="articles">
             <div class="post">
                 <div class="header_post">
+                    <div class="title_post"><a href="&#x2F;posts&#x2F;大三下学期-2023-02-24 23:25:19.html">大三下学期</a></div>
+                    <div class="detail_post">
+                        <div class="date">发布时间：2023-02-24 23:25:19</div>
+                        <div class="categories">
+                            归档分类：
+                            <ul>
+                                
+                                <li><a href="/categories/随笔">随笔</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content_post"><p>时间真的过得很快，大一时会在校园迷路的我如今也在面临考研或者直接工作的两个方向，如今的倾向是考研，因为随着 Google 、字节 这些大厂的裁员情况来看，互联网行业并不景气，加之 AI 的高速发展，低技术人员被快速淘汰，可能，提升自己的学历会是一个更好的选择。</p>
+<p>我的选择是广西大学，这是一个计算机 B- 的学校，综合下来是很适合我的情况的。</p>
+</div>
+                <div class="tags_post"></div>
+            </div>
+        </div>
+    
+        <div class="articles">
+            <div class="post">
+                <div class="header_post">
+                    <div class="title_post"><a href="&#x2F;posts&#x2F;博文转移完毕-2023-02-24 00:56:03.html">博文转移完毕</a></div>
+                    <div class="detail_post">
+                        <div class="date">发布时间：2023-02-24 00:56:03</div>
+                        <div class="categories">
+                            归档分类：
+                            <ul>
+                                
+                                <li><a href="/categories/开发日志">开发日志</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content_post"><p>由于之前的博客存储在了 sqlite3 数据库里，显然是没办法直接导入 Hexo 所识别的格式的，所以用 python 写了
+一个小脚本，方便博文的转移。</p>
+<pre><code class="language-python">import sqlite3
+from datetime import datetime
+conn = sqlite3.connect(&quot;Hsunr.db&quot;)
+cursor = conn.cursor()
+
+cursor.execute('select * from post')
+values = cursor.fetchall()
+for item in values:
+    file_name = &quot;{}-{}.md&quot;.format(item[5],item[1].replace(' ','-'))
+    dt_obj = datetime.strptime(item[0], '%Y%m%d%H%M%S')
+    content = &quot;---\n&quot; \
+              &quot;title: {}\n&quot; \
+              &quot;date: {}\n&quot; \
+              &quot;tags:\n&quot; \
+              &quot;categories: {}\n&quot; \
+              &quot;---\n&quot;\
+              &quot;{}&quot;.format(item[1],dt_obj,item[3],item[2])
+    f = open(file_name,'w');
+    f.write(content)
+</code></pre>
+</div>
+                <div class="tags_post"></div>
+            </div>
+        </div>
+    
+        <div class="articles">
+            <div class="post">
+                <div class="header_post">
                     <div class="title_post"><a href="&#x2F;posts&#x2F;停止维护 Hsunr 和 December 项目-2023-02-23 17:12:00.html">停止维护 Hsunr 和 December 项目</a></div>
                     <div class="detail_post">
                         <div class="date">发布时间：2023-02-23 17:12:00</div>
@@ -110,59 +178,6 @@
                 </div>
                 
                 <div class="content_post"><p>祝自己生日快乐！！！！</p>
-</div>
-                <div class="tags_post"></div>
-            </div>
-        </div>
-    
-        <div class="articles">
-            <div class="post">
-                <div class="header_post">
-                    <div class="title_post"><a href="&#x2F;posts&#x2F;放开-2022-12-08 22:05:53.html">放开</a></div>
-                    <div class="detail_post">
-                        <div class="date">发布时间：2022-12-08 22:05:53</div>
-                        <div class="categories">
-                            归档分类：
-                            <ul>
-                                
-                                <li><a href="/categories/default">default</a></li>
-                                
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="content_post"><p>今天全国范围内都不同程度地放开疫情管控，疫苗接种率和药品的准备不知道是否充足，白纸革命是成功的，但接下来注定会被污名化，这是必然的。</p>
-<p>在这三年中，我看到了中央与地方的割裂，虽然说公有制使得中国政府能够调用大量的资源，但是私有制和利欲薰心的人始终存在，权利最终被滥用，或许这其实就是真实的中国。我看到了一个新的事物不断走向灭亡的过程。</p>
-<p>但是这是我出生的地方，我爱这片土地，我爱我的家人朋友，每个国家都有着这样或那样的矛盾，我们的国家也不例外，它终究不是儿时课本所描述的那个完美的国家、政府，他们或许已经是最适合的选择了。</p>
-</div>
-                <div class="tags_post"></div>
-            </div>
-        </div>
-    
-        <div class="articles">
-            <div class="post">
-                <div class="header_post">
-                    <div class="title_post"><a href="&#x2F;posts&#x2F;思考-2022-11-26 16:54:03.html">思考</a></div>
-                    <div class="detail_post">
-                        <div class="date">发布时间：2022-11-26 16:54:03</div>
-                        <div class="categories">
-                            归档分类：
-                            <ul>
-                                
-                                <li><a href="/categories/default">default</a></li>
-                                
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="content_post"><p>近日，全国范围内短时间爆发了多次冲突，郑州警民冲突，广州警民冲突，成都小区的自由宣言，乌鲁木齐楼层大火导致的本月25日夜的大游行，这些冲突在不同时间不同地点爆发，历史的潮流开始显现新的迹象。这些冲突的核心诉求是要求政府结束过于严格的防疫措施。</p>
-<p>但可以看到的是，游行之中大部分人依旧还带着口罩，这说明三年来中国政府已经将新冠病毒的恐怖植入公民的内心之中，这是深刻而强烈的，即，使得绝大部分公民并非反对防疫，相反，他们普遍认同政府目前的防疫方向，但对他们滥用权利而导致防疫过度有不同程度的怨言。</p>
-<p>积压的民意在游行中被宣泄出来，政府的暴力机器所面临地是更深刻的思想斗争，他们收到的命令是镇压一场游行、阻止一次叛乱，抓捕甚至杀死前方聚集的叛乱者，但不管怎么说，请相信它的威能和永远不要相信它的仁慈。</p>
-<hr />
-<p>2022.11.27 追加。</p>
-<p>昨晚，上海 乌鲁木齐路爆发了吊唁活动，与之而来的是新的大聚集事件，请永远小心。最近能看到新闻媒体也在尝试发出更多声音，这种禁锢已经套在他们身上太久了，那样的事件落在自己、家人、朋友身上，都将是一场重大的灾难。</p>
 </div>
                 <div class="tags_post"></div>
             </div>
